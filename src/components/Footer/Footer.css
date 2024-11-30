@@ -1,0 +1,17 @@
+.orange {
+    color: orange;
+    text-decoration: none;
+}
+
+svg {
+    color: orange;
+}
+
+a {
+    text-decoration: none;
+}
+
+.footerTop {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}

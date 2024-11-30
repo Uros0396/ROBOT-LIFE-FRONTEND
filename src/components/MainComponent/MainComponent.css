@@ -1,0 +1,12 @@
+main {
+    padding-top: 10rem;
+    background-image: url("https://res.cloudinary.com/dhoq8vx2k/image/upload/v1732905700/ROBOTLIFE/Logo-Robot-Life.webp");
+    background-size: cover; /* L'immagine occupa tutto il main */
+    background-repeat: no-repeat; /* Evita la ripetizione dell'immagine */
+    background-position: center; /* Centra l'immagine */
+    background-attachment: fixed; /* L'immagine rimane fissa durante lo scroll */
+    height: auto; /* Assicura che main occupi l'intera altezza della finestra */
+    
+  }
+  
+

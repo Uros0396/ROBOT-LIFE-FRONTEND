@@ -1,0 +1,19 @@
+.imgLogo {
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+}
+
+.logos {
+    text-decoration-line: none;
+}
+
+li a {
+    color: orange;
+}
+
+
+
+.logos a {
+    color: white;
+}

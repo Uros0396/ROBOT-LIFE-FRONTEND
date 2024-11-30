@@ -1,0 +1,31 @@
+.card {
+    width: 400px !important; /* Larghezza fissa */
+    height: 500px !important;
+    background-color: rgba(0, 0, 0, 0.7) !important; /* Colore nero con trasparenza */
+    color: white; /* Colore del testo bianco per visibilità */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px); /* Solleva la card di 10px */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .img-card-top {
+    width: 100%; /* Immagini responsive */
+    height: 50%;
+  }
+  
+  .card .card-title {
+    color: orange; /* Colore del titolo arancione */
+  }
+  
+  .mb-4 {
+    margin-bottom: 1.5rem; /* Spazio tra le card */
+  }
+  
+  .row.justify-content-center {
+    gap: 1rem; /* Distanza tra le card */
+  }
+  
