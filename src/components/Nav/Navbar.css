@@ -17,3 +17,7 @@ li a {
 .logos a {
     color: white;
 }
+
+nav ul .text-decoration-none {
+    color: orange;
+}

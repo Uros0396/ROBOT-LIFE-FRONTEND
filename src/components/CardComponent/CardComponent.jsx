@@ -38,8 +38,8 @@ const CardComponent = () => {
             <img
               className="img-card-top"
               src={
-                product.image && product.image[1]
-                  ? product.image[1]
+                product.image && product.image[0]
+                  ? product.image[0]
                   : "default-image.jpg"
               }
               alt={product.title}
@@ -55,7 +55,7 @@ const CardComponent = () => {
                 {truncateDescription(product.description)}
                 <a
                   className="text-decoration-none"
-                  href={`/details/${product.asin}`}
+                  href={`/Details/${product.asin}`}
                   style={{ color: "orange" }}
                 >
                   Click Here

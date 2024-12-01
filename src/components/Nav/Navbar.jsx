@@ -1,4 +1,5 @@
 import "../Nav/Navbar.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -12,26 +13,19 @@ const Navbar = () => {
       </div>
 
       <ul className="mt-3 d-flex justify-content-between align-items-center list-unstyled">
-        <li className="me-5">
-          <a className="text-decoration-none" href="#">
-            Categories
-          </a>
-        </li>
-        <li className="me-5">
-          <a className="text-decoration-none" href="#">
-            Accessories
-          </a>
-        </li>
-        <li className="me-5">
-          <a className="text-decoration-none" href="#">
-            Contact Us
-          </a>
-        </li>
-        <li className="me-5">
-          <a className="text-decoration-none" href="#">
-            Sign Up
-          </a>
-        </li>
+        <Link to="/Categories" className="text-decoration-none">
+          <li className="me-5">Categories</li>
+        </Link>
+        <Link to="/Printer" className="text-decoration-none">
+          <li className="me-5">3D Printer</li>
+        </Link>
+        <Link to="/Contact Us" className="text-decoration-none">
+          <li className="me-5">Contact Us</li>
+        </Link>
+
+        <Link to="/SignUp" className="text-decoration-none">
+          <li className="me-5">Sign Up</li>
+        </Link>
       </ul>
 
       <div className="logos d-flex justify-content-between align-items-center">
@@ -41,17 +35,17 @@ const Navbar = () => {
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-search"
+            className="bi bi-search"
             viewBox="0 0 16 16"
           >
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
           </svg>
         </a>
         <a className="me-2" href="#">
-          <i class="bi bi-person-fill-down"></i>
+          <i className="bi bi-person-fill-down"></i>
         </a>
         <a className="me-2" href="#">
-          <i class="bi bi-handbag-fill"></i>
+          <i className="bi bi-handbag-fill"></i>
         </a>
         <a className="me-2 text-decoration-none" href="#">
           <span>0.00 €</span>

@@ -11,10 +11,13 @@ export const getAllProducts = createAsyncThunk(
   async () => {
     try {
       const res = await fetch("http://localhost:4600/products");
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       return await res.json();
     } catch (error) {
       console.error(error);
-      throw new Error("Error retrieving books");
+      throw new Error("Error Retrieving Products");
     }
   }
 );
@@ -35,7 +38,7 @@ const allProductSlice = createSlice({
       })
       .addCase(getAllProducts.rejected, (state) => {
         state.isLoading = false;
-        state.error = "Unable to retrieve books";
+        state.error = "Unable to retrieve products";
       });
   },
 });
