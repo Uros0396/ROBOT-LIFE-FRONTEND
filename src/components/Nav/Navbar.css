@@ -21,3 +21,31 @@ li a {
 nav ul .text-decoration-none {
     color: orange;
 }
+
+
+.offcanvas-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    background-color: #000;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .offcanvas-menu ul {
+    padding: 0;
+  }
+  
+  .offcanvas-menu li {
+    font-size: 1.2rem;
+    border-bottom: 1px solid #444;
+  }
+  
+  .offcanvas-menu .btn-close {
+    font-size: 2rem;
+    color: orange;
+  }
+

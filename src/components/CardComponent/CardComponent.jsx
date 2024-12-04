@@ -1,23 +1,18 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   isProductLoading,
   errorProduct,
-  getAllProducts,
   allProducts,
 } from "../../ReducerComponent/getProductsReducer";
 import "../CardComponent/CardComponent.css";
 
-const CardComponent = () => {
-  const dispatch = useDispatch();
+const CardComponent = ({ filteredProducts }) => {
+  console.log("Card Component Product:", filteredProducts);
 
   const products = useSelector(allProducts);
   const isLoading = useSelector(isProductLoading);
   const error = useSelector(errorProduct);
-
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, [dispatch]);
+  console.log(products);
 
   const truncateDescription = (description) => {
     if (!description) return "No description available";
@@ -27,10 +22,10 @@ const CardComponent = () => {
 
   return (
     <>
-      {isLoading && <p>Caricamento in corso...</p>}
+      {isLoading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {products &&
-        products.map((product) => (
+      {filteredProducts &&
+        filteredProducts.map((product) => (
           <div
             className="card col-12 col-md-6 col-lg-4 mb-4"
             key={product.asin}
@@ -58,7 +53,7 @@ const CardComponent = () => {
                   href={`/Details/${product.asin}`}
                   style={{ color: "orange" }}
                 >
-                  Click Here
+                  More
                 </a>
               </p>
               <p className="card-text text-light">

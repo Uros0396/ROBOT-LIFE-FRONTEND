@@ -11,6 +11,7 @@ export const getAllProducts = createAsyncThunk(
   async () => {
     try {
       const res = await fetch("http://localhost:4600/products");
+
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -42,6 +43,7 @@ const allProductSlice = createSlice({
       });
   },
 });
+console.log(allProductSlice);
 
 export const allProducts = (state) => state.productSlice.products;
 export const isProductLoading = (state) => state.productSlice.isLoading;

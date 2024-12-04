@@ -1,11 +1,10 @@
 import "../MainComponent/MainComponent.css";
-import CardComponent from "../CardComponent/CardComponent";
 
 const MainComponent = () => {
   return (
-    <main className="container-fluid">
-      <div className="row justify-content-center">
-        <CardComponent />
+    <main>
+      <div className="container-fluid vh-100">
+        <div className="row justify-content-center"></div>
       </div>
     </main>
   );
