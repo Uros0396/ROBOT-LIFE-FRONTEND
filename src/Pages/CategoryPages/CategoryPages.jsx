@@ -8,6 +8,9 @@ import {
   errorProduct,
 } from "../../ReducerComponent/getProductsReducer";
 import CardComponent from "../../components/CardComponent/CardComponent";
+import Navbar from "../../components/Nav/Navbar";
+import Footer from "../../components/Footer/Footer";
+import "../CategoryPages/CategoryPages.css";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -28,24 +31,28 @@ const CategoryPage = () => {
   console.log("Filtered", filteredProducts);
 
   return (
-    <div className="category-page">
-      <h1 className="text-center">{category}</h1>
+    <>
+      <Navbar />
+      <div className="container-fluid category-page">
+        <h2 className="text-center pb-5 category-title">{category}</h2>
 
-      {isLoading && <p className="text-center">Loading...</p>}
+        {isLoading && <p className="text-center">Loading...</p>}
 
-      {error && <p className="text-center text-danger">{error}</p>}
+        {error && <p className="text-center text-danger">{error}</p>}
 
-      {!isLoading && filteredProducts.length === 0 && !error && (
-        <p className="text-center">No products found in this category.</p>
-      )}
+        {!isLoading && filteredProducts.length === 0 && !error && (
+          <p className="text-center">No products found in this category.</p>
+        )}
 
-      <div className="row">
-        <CardComponent
-          filteredProducts={filteredProducts}
-          key={filteredProducts._id}
-        />
+        <div className="row justify-content-center g-3">
+          <CardComponent
+            filteredProducts={filteredProducts}
+            key={filteredProducts._id}
+          />
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

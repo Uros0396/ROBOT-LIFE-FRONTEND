@@ -30,16 +30,16 @@ const Navbar = () => {
       </button>
 
       <ul className="mt-3 d-none d-lg-flex justify-content-between align-items-center list-unstyled">
-        <Link to="/Categories" className="text-decoration-none text-white">
+        <Link to="/Categories" className="text-decoration-none">
           <li className="me-5">Categories</li>
         </Link>
-        <Link to="/Printer" className="text-decoration-none text-white">
+        <Link to="/Printer" className="text-decoration-none">
           <li className="me-5">3D Printer</li>
         </Link>
-        <Link to="/Contact Us" className="text-decoration-none text-white">
+        <Link to="/Contact Us" className="text-decoration-none">
           <li className="me-5">Contact Us</li>
         </Link>
-        <Link to="/SignUp" className="text-decoration-none text-white">
+        <Link to="/SignUp" className="text-decoration-none">
           <li className="me-5">Sign Up</li>
         </Link>
       </ul>

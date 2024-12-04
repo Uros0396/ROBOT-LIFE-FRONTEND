@@ -10,7 +10,7 @@ const SuccessLoginGoogle = () => {
     if (token) {
       localStorage.setItem("Authorization", JSON.stringify(token));
       setTimeout(() => {
-        navigate("/home");
+        navigate("/HomePage");
       }, 1500);
     }
   }, [location, navigate]);

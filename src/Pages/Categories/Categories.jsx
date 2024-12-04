@@ -48,7 +48,9 @@ const Categories = () => {
                     className="div-3"
                     onClick={() => handleCategoryClick(category)}
                   >
-                    <h3>{category}</h3>
+                    <a href="" className="category-title">
+                      <h3>{category}</h3>
+                    </a>
                   </div>
                 </Col>
               ))}
