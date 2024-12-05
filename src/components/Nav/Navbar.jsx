@@ -1,12 +1,18 @@
 import "../Nav/Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const navigateToPrinterCategory = (category) => {
+    navigate(`/Printer/${category}`);
+    setShowMenu(false);
   };
 
   return (
@@ -33,9 +39,15 @@ const Navbar = () => {
         <Link to="/Categories" className="text-decoration-none">
           <li className="me-5">Categories</li>
         </Link>
-        <Link to="/Printer" className="text-decoration-none">
-          <li className="me-5">3D Printer</li>
-        </Link>
+        <li
+          className="me-5 text-decoration-none cursor-pointer"
+          onClick={() => navigateToPrinterCategory("3D Printer")}
+        >
+          <a className="text-unstyled" href="">
+            3D Printer
+          </a>
+        </li>
+
         <Link to="/Contact Us" className="text-decoration-none">
           <li className="me-5">Contact Us</li>
         </Link>
@@ -74,9 +86,12 @@ const Navbar = () => {
             <Link to="/Categories" className="text-decoration-none text-white">
               <li className="py-2">Categories</li>
             </Link>
-            <Link to="/Printer" className="text-decoration-none text-white">
-              <li className="py-2">3D Printer</li>
-            </Link>
+            <li
+              className="py-2 text-decoration-none cursor-pointer"
+              onClick={() => navigateToPrinterCategory("Accessories")}
+            >
+              3D Printer
+            </li>
             <Link to="/Contact Us" className="text-decoration-none text-white">
               <li className="py-2">Contact Us</li>
             </Link>

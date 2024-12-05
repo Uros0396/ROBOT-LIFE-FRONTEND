@@ -6,7 +6,7 @@
   }
   
   .row {
-    width: 100%; /* Assicura che ogni riga occupi tutta la larghezza */
+    width: 100%; 
   }
   
   .img-printer {
@@ -14,7 +14,7 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    max-height: 400px; /* Imposta un limite massimo all'immagine */
+    max-height: 400px; 
     display: block;
   }
 
@@ -26,3 +26,8 @@
     margin: 0;
     padding: 0;
  } 
+
+.printer-text {
+    margin-left: 250px;
+    margin-right: 250px;
+} 
