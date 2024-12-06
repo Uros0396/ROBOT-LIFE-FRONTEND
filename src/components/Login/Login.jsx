@@ -20,7 +20,7 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("Authorization", JSON.stringify(data.token));
-        navigate("/home");
+        navigate("/Homepage");
       } else {
         alert(data.message || "Login failed. Try again.");
       }

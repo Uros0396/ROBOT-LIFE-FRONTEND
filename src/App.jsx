@@ -12,6 +12,7 @@ import Login from "./components/Login/Login";
 import SuccessLoginGoogle from "./components/SuccessLoginGoogle/SuccessLoginGoogle";
 import NotFoundPage from "./Pages/Categories/NotFoundPage/NotFoundPage";
 import CategoryPage from "./Pages/CategoryPages/CategoryPages";
+import RegisterUser from "./components/RegisterUser/RegisterUser";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/Homepage" element={<HomePage />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Contact Us" element={<ContactUs />} />
+        <Route path="/Register" element={<RegisterUser />} />
         <Route path="/Printer/:category" element={<Printer />} />
         <Route path="/Categories" element={<Categories />} />
         <Route path="/Categories/:category" element={<CategoryPage />} />
