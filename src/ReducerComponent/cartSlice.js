@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Stato iniziale
 const initialState = {
   cartItems: [],
   totalAmount: 0,
@@ -9,7 +8,6 @@ const initialState = {
   error: "",
 };
 
-// Thunk per il checkout (gestione pagamenti)
 export const checkout = createAsyncThunk(
   "cart/checkout",
   async (orderDetails, { rejectWithValue }) => {
@@ -33,12 +31,10 @@ export const checkout = createAsyncThunk(
   }
 );
 
-// Slice del carrello
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    // Aggiunge un prodotto al carrello
     addItemToCart: (state, action) => {
       const { product, quantity } = action.payload;
       const existingItem = state.cartItems.find(
@@ -60,7 +56,7 @@ const cartSlice = createSlice({
       state.totalQuantity += quantity;
       state.totalAmount += parseFloat(product.price) * quantity;
     },
-    // Rimuove un prodotto dal carrello
+
     removeItemFromCart: (state, action) => {
       const productId = action.payload;
       const existingItem = state.cartItems.find(
@@ -75,7 +71,7 @@ const cartSlice = createSlice({
         );
       }
     },
-    // Modifica la quantità di un prodotto
+
     updateItemQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
       const existingItem = state.cartItems.find(
@@ -93,7 +89,7 @@ const cartSlice = createSlice({
           parseFloat(existingItem.product.price) * difference;
       }
     },
-    // Svuota il carrello
+
     clearCart: (state) => {
       state.cartItems = [];
       state.totalAmount = 0;
@@ -119,7 +115,6 @@ const cartSlice = createSlice({
   },
 });
 
-// Esporta le azioni
 export const {
   addItemToCart,
   removeItemFromCart,
@@ -127,12 +122,10 @@ export const {
   clearCart,
 } = cartSlice.actions;
 
-// Selettori
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectTotalAmount = (state) => state.cart.totalAmount;
 export const selectTotalQuantity = (state) => state.cart.totalQuantity;
 export const selectCartLoading = (state) => state.cart.isLoading;
 export const selectCartError = (state) => state.cart.error;
 
-// Reducer
 export default cartSlice.reducer;

@@ -66,10 +66,28 @@ const Printer = () => {
         </div>
         <div className="row mb-5 pt-b d-flex justify-content-between gap-1">
           <div className="col-6 Printer-Video">
-            <p>VIDEO 1</p>
+            <iframe
+              width="600"
+              height="400"
+              src="https://www.youtube.com/embed/Zsw35FpJSz0?si=NMqepIQIjRygBmAe"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
           </div>
           <div className="col-6 Printer-Video">
-            <p>VIDEO 2</p>
+            <iframe
+              width="600"
+              height="400"
+              src="https://www.youtube.com/embed/Ftt9e8xnKE4?si=O4a6zPpd6-E3Fy49"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
           </div>
         </div>
 

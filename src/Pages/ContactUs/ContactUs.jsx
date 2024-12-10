@@ -5,7 +5,7 @@ const ContactUs = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid category-page vh-100"></div>
+      <div className="container-fluid category-page vh-auto"></div>
       <Footer />
     </>
   );

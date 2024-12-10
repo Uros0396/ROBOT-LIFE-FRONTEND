@@ -1,15 +1,16 @@
+import { Link } from "react-router-dom";
 import "../CardComponent/CardComponent.css";
 
 const CardComponent = ({ filteredProducts }) => {
-  if (!Array.isArray(filteredProducts) || filteredProducts.length === 0) {
-    return <p>No products available</p>;
-  }
-
   const truncateDescription = (description) => {
     if (!description) return "No description available";
     const words = description.split(" ");
     return words.length > 5 ? words.slice(0, 5).join(" ") + "..." : description;
   };
+
+  if (!Array.isArray(filteredProducts) || filteredProducts.length === 0) {
+    return <p>No products available</p>;
+  }
 
   return (
     <>
@@ -33,13 +34,13 @@ const CardComponent = ({ filteredProducts }) => {
             <p className="card-text text-light">
               <strong className="text-warning">Description:</strong>{" "}
               {truncateDescription(product.description)}
-              <a
+              <Link
+                to={`/Details/${product._id}`}
                 className="text-decoration-none"
-                href={`/Details/${product.asin}`}
                 style={{ color: "orange" }}
               >
                 More
-              </a>
+              </Link>
             </p>
             <p className="card-text text-light">
               <strong className="text-warning">Price:</strong> €{" "}

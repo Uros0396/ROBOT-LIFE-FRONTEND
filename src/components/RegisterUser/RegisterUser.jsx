@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { User, Mail, Lock, ChevronDown } from "lucide-react";
-
+import "../RegisterUser/RegisterUser.css";
 import { useNavigate } from "react-router-dom";
+import SuccessModal from "../Modals/SuccesRegisterModal/SuccesRegModal";
 
 const RegisterUser = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,8 @@ const RegisterUser = () => {
     role: "user",
     dob: "",
   });
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
@@ -42,12 +44,13 @@ const RegisterUser = () => {
         throw new Error(data.message || "Failed to create user");
       }
 
-      setSuccess(true);
-      setError(null);
+      setModalMessage("User created successfully!");
+      setIsModalOpen(true);
 
       setTimeout(() => {
+        setIsModalOpen(false);
         navigate("/");
-      }, 1500);
+      }, 2000);
 
       setFormData({
         name: "",
@@ -59,131 +62,163 @@ const RegisterUser = () => {
         dob: "",
       });
     } catch (err) {
-      setError(err.message);
-      setSuccess(false);
+      setModalMessage(`Error: ${err.message}`);
+      setIsModalOpen(true);
+
+      setTimeout(() => {
+        setIsModalOpen(false);
+      }, 6000);
     }
   };
 
   return (
-    <div className="signup-form-container">
-      <div className="signup-form">
-        <h2>SIGN UP</h2>
-        {error && <p className="error-message">{error}</p>}
-        {success && (
-          <p className="success-message">User created successfully!</p>
-        )}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">
-              <User size={20} />
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              minLength="3"
-            />
+    <div className="container">
+      <SuccessModal
+        isOpen={isModalOpen}
+        message={modalMessage}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <div className="row">
+        <div className="col col-md-6 col-lg-6 d-flex justify-content-between align-items-center">
+          <div className="signup-form">
+            <h2>SIGN UP</h2>
+            {error && <p className="error-message">{error}</p>}
+            {success && (
+              <p className="success-message">User created successfully!</p>
+            )}
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">
+                  <User size={20} />
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  minLength="3"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="surname">
+                  <User size={20} />
+                </label>
+                <input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  placeholder="Surname"
+                  value={formData.surname}
+                  onChange={handleChange}
+                  required
+                  minLength="3"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="username">
+                  <User size={20} />
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                  minLength="8"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">
+                  <Mail size={20} />
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">
+                  <Lock size={20} />
+                </label>
+                <input
+                  className="bg-dark"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  minLength="8"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="dob">
+                  <User size={20} />
+                </label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  placeholder="Dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group me-5 pe-5">
+                <label htmlFor="role">
+                  <ChevronDown size={20} />
+                </label>
+                <select
+                  className="bg-dark text-warning"
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="user">User</option>
+                  <option value="admin">Company</option>
+                </select>
+              </div>
+              <button type="submit">Sign up</button>
+            </form>
           </div>
-          <div className="form-group">
-            <label htmlFor="surname">
-              <User size={20} />
-            </label>
-            <input
-              type="text"
-              id="surname"
-              name="surname"
-              placeholder="Surname"
-              value={formData.surname}
-              onChange={handleChange}
-              required
-              minLength="3"
-            />
+          <div className="term-condition">
+            <h6 className="text-warning">Terms and Conditions</h6>
+            <p>
+              Welcome to RobotLife. By using our website and purchasing our
+              robotic products, you agree to these terms and conditions. All
+              products are subject to availability and may vary in
+              specifications. Payments must be made in full before shipment. We
+              are not liable for any damages caused by misuse of our products.
+              Customers have 14 days to request returns or refunds for defective
+              items. Shipping fees are non-refundable. Warranty claims must
+              adhere to the provided guidelines. These terms are governed by
+              Austrian laws.
+            </p>
+            <p>
+              Contact us at{" "}
+              <a className="text-unstyled" href="">
+                urosm4471@gmail.com
+              </a>{" "}
+              for any inquiries.
+            </p>
+            <p>Thank you for choosing us!</p>
           </div>
-          <div className="form-group">
-            <label htmlFor="username">
-              <User size={20} />
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              minLength="8"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">
-              <Mail size={20} />
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">
-              <Lock size={20} />
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              minLength="8"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="dob">
-              <User size={20} />
-            </label>
-            <input
-              type="date"
-              id="dob"
-              name="dob"
-              placeholder="Dob"
-              value={formData.dob}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="role">
-              <ChevronDown size={20} />
-            </label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-            >
-              <option value="user">User</option>
-              <option value="company">Company</option>
-            </select>
-          </div>
-          <button type="submit" className="signup-button">
-            Sign up
-          </button>
-          <p>
-            By creating an account, you agree to our
-            <span className="terms-link">Terms & Conditions</span>
-          </p>
-        </form>
+        </div>
+        <div className="col col-md-6 col-lg-6"></div>
       </div>
     </div>
   );

@@ -22,24 +22,26 @@ const MainComponent = () => {
   }, []);
 
   return (
-    <main className="bg-dark">
-      <div className="carousel">
-        <div
-          className="carousel-slides"
-          style={{
-            transform: `translateX(-${currentIndex * 100}%)`,
-          }}
-        >
-          {images.map((img, index) => (
-            <div className="carousel-slide" key={index}>
-              <img src={img} alt={`Slide ${index + 1}`} />
-            </div>
-          ))}
+    <>
+      <main className="bg-dark">
+        <div className="carousel">
+          <div
+            className="carousel-slides"
+            style={{
+              transform: `translateX(-${currentIndex * 100}%)`,
+            }}
+          >
+            {images.map((img, index) => (
+              <div className="carousel-slide" key={index}>
+                <img src={img} alt={`Slide ${index + 1}`} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <Description />
-      <SingleRandomCard />
-    </main>
+        <Description />
+        <SingleRandomCard />
+      </main>
+    </>
   );
 };
 

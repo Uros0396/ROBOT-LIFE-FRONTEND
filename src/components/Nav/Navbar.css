@@ -51,3 +51,11 @@ nav ul .text-decoration-none {
     color: orange;
   }
 
+  .modal {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modal-dialog {
+    margin-top: 10%;
+  }
+  
+

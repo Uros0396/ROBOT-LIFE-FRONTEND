@@ -9,18 +9,21 @@ const Login = () => {
     console.log(formData);
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4600/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("Authorization", JSON.stringify(data.token));
-        navigate("/Homepage");
+        localStorage.setItem("Authorization", data.token);
+        navigate("/");
       } else {
         alert(data.message || "Login failed. Try again.");
       }
@@ -31,7 +34,9 @@ const Login = () => {
   };
 
   const redirectToGoogle = () => {
-    window.location.href = "http://localhost:4600/auth/google";
+    window.location.href = `${
+      import.meta.env.VITE_SERVER_BASE_URL
+    }/auth/google`;
   };
 
   return (
@@ -56,7 +61,9 @@ const Login = () => {
           autoComplete="current-password"
         />
         <button type="submit">Login</button>
-        <button onClick={redirectToGoogle}>Sign with google</button>
+        <button type="button" onClick={redirectToGoogle}>
+          Sign with Google
+        </button>
       </form>
     </div>
   );
