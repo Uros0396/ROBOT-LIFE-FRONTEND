@@ -80,7 +80,7 @@ const Navbar = () => {
           <a className="me-2 text-white" href="#">
             <i className="bi bi-person-fill-down" onClick={logout}></i>
           </a>
-          <a className="me-2 text-white" href="#">
+          <a className="me-2 text-white" href="/Cart">
             <i className="bi bi-handbag-fill"></i>
           </a>
           <a className="me-2 text-decoration-none text-white" href="#">

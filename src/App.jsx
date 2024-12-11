@@ -14,6 +14,7 @@ import CategoryPage from "./Pages/CategoryPages/CategoryPages";
 import RegisterUser from "./components/RegisterUser/RegisterUser";
 import Details from "./Pages/Details/Details";
 import ProtectedRoutes from "./middleware/ProtectedRoutes/ProtectedRoutes";
+import CartPage from "./components/Cart/CartPage/CartPage";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/Categories/:category" element={<CategoryPage />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/Details/:productId" element={<Details />} />
+          <Route path="/Cart" element={<CartPage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

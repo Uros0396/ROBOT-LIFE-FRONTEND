@@ -179,6 +179,8 @@ import "../Details/Details.css";
 import StarRating from "./StarRating/StarRating";
 import CommentForm from "../../components/CommentForm/CommentForm";
 import useSession from "../../hooks/useSession";
+import { addToCart } from "../../ReducerComponent/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Details = () => {
   const { productId } = useParams();
@@ -188,7 +190,7 @@ const Details = () => {
   const [comments, setComments] = useState([]);
   const [mainImage, setMainImage] = useState(null);
   const [error, setError] = useState(null);
-
+  const dispatch = useDispatch();
   const getProductDetails = async () => {
     if (!productId) {
       console.error("Product ID is not defined.");
@@ -248,6 +250,17 @@ const Details = () => {
 
   const handleThumbnailClick = (image) => {
     setMainImage(image);
+  };
+
+  const handleToCart = (product) => {
+    const productToAdd = {
+      _id: product._id,
+      title: product.title,
+      price: parseFloat(product.price.$numberDecimal.toString()).toFixed(2),
+      image: product.image[1],
+    };
+    dispatch(addToCart(productToAdd));
+    console.log(productToAdd);
   };
 
   if (loading) {
@@ -340,6 +353,8 @@ const Details = () => {
                 <p className="product-text">No comments found.</p>
               )}
             </div>
+
+            <button onClick={() => handleToCart(productDetails)}>cart</button>
 
             <hr className="text-warning" />
 
