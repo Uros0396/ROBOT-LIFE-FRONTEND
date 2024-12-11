@@ -5,7 +5,7 @@ const SuccessModal = ({ isOpen, message, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay ">
+    <div className="modal-overlay">
       <div
         className={`modal-content ${
           message.startsWith("Error") ? "error" : "success"

@@ -24,7 +24,7 @@ const MainComponent = () => {
   return (
     <>
       <main className="bg-dark">
-        <div className="carousel">
+        <div className="carousel d-none d-sm-block">
           <div
             className="carousel-slides"
             style={{

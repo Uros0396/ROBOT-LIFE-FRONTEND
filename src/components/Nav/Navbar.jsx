@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Login from "../Login/Login";
 import "../Nav/Navbar.css";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -19,6 +20,12 @@ const Navbar = () => {
   const navigateToPrinterCategory = (category) => {
     navigate(`/Printer/${category}`);
     setShowMenu(false);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("Authorization");
+    alert("Logged out successfully.");
+    navigate("/"); // Redirect to homepage or another route
   };
 
   return (
@@ -61,13 +68,17 @@ const Navbar = () => {
 
         <div className="logos d-flex justify-content-between align-items-center">
           <button
-            className="btn btn-outline-light me-2"
+            className="btn btn-outline-light me-2 border-0 bg-black"
             onClick={toggleLoginModal}
           >
-            Login
+            <span className="bg-black text-warning">Login</span>
           </button>
+
+          <a href="#">
+            <Search />
+          </a>
           <a className="me-2 text-white" href="#">
-            <i className="bi bi-person-fill-down"></i>
+            <i className="bi bi-person-fill-down" onClick={logout}></i>
           </a>
           <a className="me-2 text-white" href="#">
             <i className="bi bi-handbag-fill"></i>
@@ -81,9 +92,8 @@ const Navbar = () => {
       {showLoginModal && (
         <div className="modal show d-block" tabIndex="-1">
           <div className="modal-dialog">
-            <div className="modal-content">
+            <div className="modal-content modal-login">
               <div className="modal-header">
-                <h5 className="modal-title">Login</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -91,9 +101,9 @@ const Navbar = () => {
                 ></button>
               </div>
               <div className="modal-body">
-                <Login />
+                <Login closeModal={toggleLoginModal} />
                 <Link to="/SignUp" className="text-decoration-none text-white">
-                  <li className="py-2">Sign Up</li>
+                  <li className="py-2 list-unstyled text-warning">Sign Up</li>
                 </Link>
               </div>
             </div>

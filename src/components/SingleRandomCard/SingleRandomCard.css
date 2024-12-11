@@ -1,0 +1,23 @@
+.single-random-card {
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 576px) {
+    .single-random-card .row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .single-random-card img {
+      max-width: 90%;
+      height: auto;
+    }
+  
+    .single-random-card h4,
+    .single-random-card p {
+      margin-bottom: 1rem;
+    }
+  }
+  

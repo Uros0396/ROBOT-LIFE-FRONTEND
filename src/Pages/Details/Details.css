@@ -1,6 +1,6 @@
 .bg-details {
   /*background-image: url("https://res.cloudinary.com/dhoq8vx2k/image/upload/v1732905700/ROBOTLIFE/Logo-Robot-Life.webp");*/
-  padding-top: 150px;
+  padding-top: 100px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -8,14 +8,13 @@
   height: auto;
 }
 
+
+
 .product-text {
     color: white;
 }
 
-.main-image img {
-    border: 10px solid gray;
-    border-radius: 10px;
-  }
+
   
   .thumbnails img {
     transition: transform 0.2s;
@@ -41,3 +40,21 @@
     margin-bottom: 80px;
   }
     
+  .comments-container {
+    max-height: 300px; /* Altezza massima del contenitore */
+    overflow-y: auto; /* Abilita lo scroll verticale */
+    padding-right: 10px; /* Spazio per evitare sovrapposizione con la scrollbar */
+  }
+  
+  .comments-container ul {
+    list-style-type: none; /* Rimuove i bullet dei commenti */
+    padding: 0;
+    margin: 0;
+  }
+
+  .div-descript {
+    margin-top: 240px;
+    
+  }
+
+  

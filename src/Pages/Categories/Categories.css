@@ -11,63 +11,7 @@
 .div-1 {
     border: 2px solid, black;
     text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-2 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-3 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-4 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-5 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-6 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-7 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
-    color: orange;
-    background-color: rgba(0, 0, 0, 0.7) !important; 
-}
-
-.div-8 {
-    border: 2px solid, black;
-    text-align: center;
-    width: 400px;
+    max-width: 400px;
     color: orange;
     background-color: rgba(0, 0, 0, 0.7) !important; 
 }

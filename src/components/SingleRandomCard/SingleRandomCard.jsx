@@ -27,30 +27,41 @@ const SingleRandomCard = () => {
   if (error) return <p>{error}</p>;
 
   return randomProduct ? (
-    <div className="single-random-card container">
-      <div className="row">
-        <div className="col text-center">
-          <h3 className="random-card-title">{randomProduct.name}</h3>
+    <div className="container single-random-card">
+      <div className="text-center mt-4 mb-4">
+        <h3 className="text-warning">Daily Robot</h3>
+      </div>
+      <div className="row align-items-center justify-content-center  mt-3 pb-5">
+        <div className="col-12 col-sm-8 col-md-6 text-center mb-4">
           <img
             src={randomProduct.image[0]}
-            alt={randomProduct.name}
+            alt={randomProduct.title}
             className="random-card-img"
-            style={{ width: "200px", height: "200px", objectFit: "cover" }}
+            style={{
+              width: "100%",
+              maxWidth: "300px",
+              height: "200px",
+              objectFit: "cover",
+            }}
           />
-          <p className="random-card-category text-warning">
-            Category: {randomProduct.category || "Unknown"}
+        </div>
+        <div className="col-12 col-sm-8 col-md-6 text-center">
+          <h4 className="random-card-title text-warning">
+            {randomProduct.title}
+          </h4>
+          <p className="random-card-category" style={{ color: "orange" }}>
+            <span className="text-warning">Category:</span>{" "}
+            {randomProduct.category || "Unknown"}
           </p>
-          <p className="random-card-price text-warning">
-            Price: $
-            {parseFloat(
-              randomProduct.price?.$numberDecimal || randomProduct.price || 0
-            ).toFixed(2)}
+          <p className="random-card-category" style={{ color: "orange" }}>
+            <span className="text-warning">Description:</span>{" "}
+            {randomProduct.description || "Unknown"}
           </p>
         </div>
       </div>
     </div>
   ) : (
-    <p>No products available.</p>
+    <p className="text-center">No products available.</p>
   );
 };
 

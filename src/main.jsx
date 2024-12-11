@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import productReducer from "./ReducerComponent/getProductsReducer";
 import cartReducer from "./ReducerComponent/cartSlice";
 import commentReducer from "./ReducerComponent/commentSlice.js";
+
 import App from "./App.jsx";
 
 const reducer = combineReducers({

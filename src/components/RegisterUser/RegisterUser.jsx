@@ -72,14 +72,14 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className="container">
+    <>
       <SuccessModal
         isOpen={isModalOpen}
         message={modalMessage}
         onClose={() => setIsModalOpen(false)}
       />
       <div className="row">
-        <div className="col col-md-6 col-lg-6 d-flex justify-content-between align-items-center">
+        <div className="col col-md-3 col-lg-3 d-flex justify-content-between align-items-center">
           <div className="signup-form">
             <h2>SIGN UP</h2>
             {error && <p className="error-message">{error}</p>}
@@ -195,32 +195,31 @@ const RegisterUser = () => {
               <button type="submit">Sign up</button>
             </form>
           </div>
-          <div className="term-condition">
-            <h6 className="text-warning">Terms and Conditions</h6>
-            <p>
-              Welcome to RobotLife. By using our website and purchasing our
-              robotic products, you agree to these terms and conditions. All
-              products are subject to availability and may vary in
-              specifications. Payments must be made in full before shipment. We
-              are not liable for any damages caused by misuse of our products.
-              Customers have 14 days to request returns or refunds for defective
-              items. Shipping fees are non-refundable. Warranty claims must
-              adhere to the provided guidelines. These terms are governed by
-              Austrian laws.
-            </p>
-            <p>
-              Contact us at{" "}
-              <a className="text-unstyled" href="">
-                urosm4471@gmail.com
-              </a>{" "}
-              for any inquiries.
-            </p>
-            <p>Thank you for choosing us!</p>
-          </div>
+        </div>
+        <div className="col-12 col-md-3 col-lg-3 term-condition">
+          <h6 className="text-warning">Terms and Conditions</h6>
+          <p>
+            Welcome to RobotLife. By using our website and purchasing our
+            robotic products, you agree to these terms and conditions. All
+            products are subject to availability and may vary in specifications.
+            Payments must be made in full before shipment. We are not liable for
+            any damages caused by misuse of our products. Customers have 14 days
+            to request returns or refunds for defective items. Shipping fees are
+            non-refundable. Warranty claims must adhere to the provided
+            guidelines. These terms are governed by Austrian laws.
+          </p>
+          <p>
+            Contact us at{" "}
+            <a className="text-unstyled" href="">
+              urosm4471@gmail.com
+            </a>{" "}
+            for any inquiries.
+          </p>
+          <p>Thank you for choosing us!</p>
         </div>
         <div className="col col-md-6 col-lg-6"></div>
       </div>
-    </div>
+    </>
   );
 };
 

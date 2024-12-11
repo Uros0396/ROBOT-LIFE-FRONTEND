@@ -35,17 +35,17 @@ const Categories = () => {
       <Navbar />
       <Container
         fluid
-        className="d-flex justify-content-center align-items-center min-vh-100"
+        className="d-flex justify-content-center align-items-center min-vh-100 mt-5"
       >
-        <Row className="g-5 text-center">
+        <Row className="g-5 pt-5 text-center">
           {isLoading && <p>Loading...</p>}
           {error && <p className="text-danger">Error: {error}</p>}
           {!isLoading && !error && (
             <>
               {categories.map((category) => (
-                <Col key={category} lg={4} md={6} sm={6}>
+                <Col key={category} lg={4} md={12} sm={12}>
                   <div
-                    className="div-3"
+                    className="div-1"
                     onClick={() => handleCategoryClick(category)}
                   >
                     <a href="" className="category-title">
