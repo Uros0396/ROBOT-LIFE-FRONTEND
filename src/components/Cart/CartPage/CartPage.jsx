@@ -14,7 +14,6 @@ import Navbar from "../../Nav/Navbar";
 import Footer from "../../Footer/Footer";
 import "../CartPage/CartPage.css";
 import { Trash2 } from "lucide-react";
-import useSession from "../../../hooks/useSession";
 import { Plus, Minus } from "lucide-react";
 
 const stripePromise = loadStripe("pk_test_XUIpXpyaGuuw0Dc9Ng80xFWs");
@@ -33,7 +32,6 @@ const CartPage = () => {
     country: "",
   });
 
-  const session = useSession();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -48,11 +46,6 @@ const CartPage = () => {
       return;
     }
 
-    if (!session) {
-      alert("You need to be logged in to proceed with checkout.");
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
@@ -63,10 +56,8 @@ const CartPage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${session.token}`,
           },
           body: JSON.stringify({
-            user: session._id,
             items: cartItems,
             shippingAddress: shippingDetails,
             totalPrice: totalAmount,
@@ -194,7 +185,7 @@ const CartPage = () => {
             </div>
             <div className="mt-4">
               <h4 style={{ color: "orange" }}>Shipping Address</h4>
-              <form>
+              <form className="col-sm-12 col-md-6 col-lg-6 ">
                 {Object.keys(shippingDetails).map((field) => (
                   <div className="mb-3" key={field}>
                     <label htmlFor={field} style={{ color: "orange" }}>
@@ -212,10 +203,10 @@ const CartPage = () => {
                   </div>
                 ))}
               </form>
-            </div>
-            <div className="mt-4">
-              <h4 style={{ color: "orange" }}>Payment Details</h4>
-              <CardElement />
+              <div className="mt-4 pb-5">
+                <h4 style={{ color: "orange" }}>Payment Details</h4>
+                <CardElement className="bg-warning w-25" />
+              </div>
             </div>
           </>
         )}

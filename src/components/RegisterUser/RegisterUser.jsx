@@ -189,7 +189,6 @@ const RegisterUser = () => {
                   required
                 >
                   <option value="user">User</option>
-                  <option value="admin">Company</option>
                 </select>
               </div>
               <button type="submit">Sign up</button>

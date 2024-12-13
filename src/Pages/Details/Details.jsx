@@ -157,6 +157,13 @@ const Details = () => {
               Price: <span className="product-text">€ {price}</span>
             </p>
 
+            <button
+              className="btn btn-warning"
+              onClick={() => handleToCart(productDetails)}
+            >
+              <strong>Add To Cart</strong>
+            </button>
+
             <hr className="text-warning" />
 
             <div className="pt-3 pb-3 comments-container">
@@ -179,8 +186,6 @@ const Details = () => {
                 <p className="product-text">No comments found.</p>
               )}
             </div>
-
-            <button onClick={() => handleToCart(productDetails)}>cart</button>
 
             <hr className="text-warning" />
 

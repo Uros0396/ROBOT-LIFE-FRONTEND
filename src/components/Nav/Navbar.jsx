@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Login from "../Login/Login";
 import "../Nav/Navbar.css";
+import { Search } from "lucide-react";
 
 const Navbar = ({ setSearchResult }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -105,11 +106,12 @@ const Navbar = ({ setSearchResult }) => {
                 value={searchTitle}
                 onChange={(e) => setSearchTitle(e.target.value)}
                 placeholder="Search"
-                className="form-control me-2"
+                className="form-control input-color me-2"
               />
-              <button onClick={handleSearch} className="btn btn-outline-info">
-                Search
-              </button>
+
+              <a href="#">
+                <Search onClick={handleSearch} />
+              </a>
             </div>
           )}
 

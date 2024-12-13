@@ -6,7 +6,7 @@ const ContactUs = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid  vh-100">
+      <div className="container-fluid bg-dark vh-auto">
         <ContactForm />
       </div>
       <Footer />

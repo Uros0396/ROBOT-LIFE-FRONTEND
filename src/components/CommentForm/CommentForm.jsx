@@ -28,12 +28,12 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
     e.preventDefault();
 
     if (!formData.comment || !formData.rate) {
-      alert("Commento e valutazione sono obbligatori!");
+      alert("Comment and rating are required!");
       return;
     }
 
     if (!userId || !productId) {
-      alert("ID utente e ID prodotto non sono validi!");
+      alert("User ID and product ID are not valid!");
       return;
     }
 
@@ -51,7 +51,7 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
         }
       })
       .catch((error) => {
-        console.error("Errore nel postare il commento:", error);
+        console.error("Error posting the comment:", error);
       });
 
     setFormData({
@@ -67,7 +67,7 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
           <textarea
             className="form-control mb-2"
             name="comment"
-            placeholder="Scrivi un commento..."
+            placeholder="Let a review"
             value={formData.comment}
             onChange={handleChange}
             required
@@ -78,7 +78,7 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
             className="form-control mb-2"
             type="number"
             name="rate"
-            placeholder="Valutazione (1-5)"
+            placeholder="Rating (1-5)"
             min="1"
             max="5"
             value={formData.rate}
