@@ -1,0 +1,10 @@
+.container-cartPage {
+   
+    min-height: 100vh;
+}
+
+.container-cartPage .mb-3 {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid orange;
+}
+

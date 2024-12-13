@@ -34,7 +34,7 @@ const Printer = () => {
       <Navbar />
       <div className="container-fluid category-page vh-auto">
         <div className="row mb-3">
-          <div className="col justify-content-center text-light">
+          <div className="col justify-content-center text-light printer-text">
             <img
               className="img-printer"
               src="https://res.cloudinary.com/dhoq8vx2k/image/upload/v1733403326/ROBOTLIFE/workshop_motionlab-berlin_3d-printing-berlin.jpg"

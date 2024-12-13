@@ -31,3 +31,11 @@
     margin-left: 250px;
     margin-right: 250px;
 } 
+
+.printer-text {
+  background-color: rgba(0, 0, 0, 0.7) !important; 
+}
+
+.printer-text p {
+     color: orange;
+}
