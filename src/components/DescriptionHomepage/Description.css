@@ -2,23 +2,23 @@
     border-top: 2px solid orange !important;
     border-bottom: 2px solid orange !important;
     margin-top: 150px;
-    padding: 40px; /* Aggiunto un padding uniforme */
+    padding: 40px;
   }
   
   @media (max-width: 576px) {
     .div-description {
-      margin-top: 50px; /* Riduce lo spazio superiore su schermi piccoli */
-      padding: 20px; /* Riduce il padding su schermi piccoli */
+      margin-top: 50px; 
+      padding: 20px; 
     }
   
     .div-description p {
-      font-size: 0.9rem; /* Riduce la dimensione del font */
-      line-height: 1.5; /* Aumenta la leggibilità */
-      margin: 0; /* Rimuove margini eccessivi */
+      font-size: 0.9rem; 
+      line-height: 1.5; 
+      margin: 0; 
     }
   
     .category-title {
-      font-size: 1.5rem; /* Riduce la dimensione del titolo */
+      font-size: 1.5rem; 
       margin-bottom: 20px;
     }
   }

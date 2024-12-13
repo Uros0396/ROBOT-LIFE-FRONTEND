@@ -41,13 +41,12 @@
   }
     
   .comments-container {
-    max-height: 300px; /* Altezza massima del contenitore */
-    overflow-y: auto; /* Abilita lo scroll verticale */
-    padding-right: 10px; /* Spazio per evitare sovrapposizione con la scrollbar */
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px; 
   }
-  
   .comments-container ul {
-    list-style-type: none; /* Rimuove i bullet dei commenti */
+    list-style-type: none; 
     padding: 0;
     margin: 0;
   }
