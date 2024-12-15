@@ -16,8 +16,8 @@ const RegisterUser = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [error] = useState(null);
+  const [success] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -195,7 +195,7 @@ const RegisterUser = () => {
             </form>
           </div>
         </div>
-        <div className="col-12 col-md-3 col-lg-3 term-condition">
+        <div className="col-12 col-md-3 col-lg-3  term-condition">
           <h6 className="text-warning">Terms and Conditions</h6>
           <p>
             Welcome to RobotLife. By using our website and purchasing our

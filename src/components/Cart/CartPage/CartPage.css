@@ -1,6 +1,6 @@
 .container-cartPage {
    
-    height: auto;
+    min-height: 100vh;
 }
 
 .container-cartPage .mb-3 {

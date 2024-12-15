@@ -8,15 +8,14 @@ import {
   selectCartItems,
   selectTotalAmount,
 } from "../../../ReducerComponent/cartSlice";
-import { loadStripe } from "@stripe/stripe-js";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Navbar from "../../Nav/Navbar";
 import Footer from "../../Footer/Footer";
 import "../CartPage/CartPage.css";
 import { Trash2 } from "lucide-react";
 import { Plus, Minus } from "lucide-react";
-
-const stripePromise = loadStripe("pk_test_XUIpXpyaGuuw0Dc9Ng80xFWs");
+import useSession from "../../../hooks/useSession";
+import Swal from "sweetalert2";
+import ValidationPayment from "../../../middleware/ValidationPayment/ValidationPayment";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -31,9 +30,7 @@ const CartPage = () => {
     CAP: "",
     country: "",
   });
-
-  const stripe = useStripe();
-  const elements = useElements();
+  const session = useSession();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,13 +38,29 @@ const CartPage = () => {
   };
 
   const handleCheckout = async () => {
-    if (!stripe || !elements) {
-      console.log("Stripe or Elements not loaded");
+    setLoading(true);
+    setError(null);
+
+    const isValid = ValidationPayment(shippingDetails);
+    if (!isValid) {
+      setLoading(false);
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    const totalPrice = cartItems
+      .reduce((acc, item) => acc + item.price * item.quantity, 0)
+      .toFixed(2);
+
+    const orderData = {
+      user: session?._id || null,
+      items: cartItems.map((item) => ({
+        product: item._id,
+        quantity: item.quantity,
+        price: parseFloat(item.price.toString()),
+      })),
+      shippingDetails,
+      totalPrice,
+    };
 
     try {
       const response = await fetch(
@@ -57,11 +70,7 @@ const CartPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            items: cartItems,
-            shippingAddress: shippingDetails,
-            totalPrice: totalAmount,
-          }),
+          body: JSON.stringify(orderData),
         }
       );
 
@@ -71,28 +80,29 @@ const CartPage = () => {
         throw new Error(sessionData.error);
       }
 
-      const clientSecret = sessionData.clientSecret;
-
-      const { error: stripeError, paymentIntent } =
-        await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-          },
-        });
-
-      if (stripeError) {
-        throw new Error(stripeError.message);
-      }
-
-      if (paymentIntent.status === "succeeded") {
-        alert("Payment successful!");
-        dispatch(clearCart());
-      } else {
-        throw new Error("Payment failed.");
-      }
+      Swal.fire({
+        title: "Payment successfully.",
+        icon: "success",
+        background: "#1a1a1a",
+        color: "gold",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "custom-confirm-button",
+        },
+      });
+      dispatch(clearCart());
     } catch (error) {
       setError(error.message);
-      alert("Something went wrong. Please try again.");
+      Swal.fire({
+        title: "Something goes wrong!.",
+        icon: "warning",
+        background: "#1a1a1a",
+        color: "gold",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "custom-confirm-button",
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -106,7 +116,9 @@ const CartPage = () => {
           Your Cart
         </h2>
         {cartItems.length === 0 ? (
-          <p style={{ color: "orange" }}>Your cart is empty!</p>
+          <p className="mb-0 pb-0" style={{ color: "orange" }}>
+            Your cart is empty!
+          </p>
         ) : (
           <>
             <div className="row">
@@ -183,11 +195,11 @@ const CartPage = () => {
                 </strong>
               </button>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 mb-0 pb-0">
               <h4 style={{ color: "orange" }}>Shipping Address</h4>
               <form className="col-sm-12 col-md-6 col-lg-6 ">
                 {Object.keys(shippingDetails).map((field) => (
-                  <div className="mb-3" key={field}>
+                  <div className="pb-3" key={field}>
                     <label htmlFor={field} style={{ color: "orange" }}>
                       {field.charAt(0).toUpperCase() + field.slice(1)}:
                     </label>
@@ -203,10 +215,6 @@ const CartPage = () => {
                   </div>
                 ))}
               </form>
-              <div className="mt-4 pb-5">
-                <h4 style={{ color: "orange" }}>Payment Details</h4>
-                <CardElement className="bg-warning w-25" />
-              </div>
             </div>
           </>
         )}

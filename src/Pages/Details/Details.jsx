@@ -8,6 +8,7 @@ import CommentForm from "../../components/CommentForm/CommentForm";
 import useSession from "../../hooks/useSession";
 import { addToCart } from "../../ReducerComponent/cartSlice";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 const Details = () => {
   const { productId } = useParams();
@@ -88,6 +89,17 @@ const Details = () => {
     };
     dispatch(addToCart(productToAdd));
     console.log(productToAdd);
+    Swal.fire({
+      title: "Add to cart successfully.",
+
+      icon: "success",
+      background: "#1a1a1a",
+      color: "gold",
+      confirmButtonText: "OK",
+      customClass: {
+        confirmButton: "custom-confirm-button",
+      },
+    });
   };
 
   if (loading) {
@@ -170,7 +182,7 @@ const Details = () => {
               {comments.length > 0 ? (
                 <ul className="ps-0">
                   {comments.map((comment) => (
-                    <li className="" key={comment._id}>
+                    <li key={comment._id}>
                       <p className="text-warning me-5 pe-5">
                         Comments:{" "}
                         <span className="product-text">{comment.comment}</span>
@@ -198,9 +210,7 @@ const Details = () => {
                   onCommentSubmit={handleNewComment}
                 />
               ) : (
-                <p className="text-danger">
-                  Devi essere loggato per aggiungere un commento.
-                </p>
+                <p className="text-danger">You must be logged.</p>
               )}
             </div>
           </div>

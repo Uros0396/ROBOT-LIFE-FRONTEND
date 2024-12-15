@@ -5,6 +5,7 @@ import {
   isCommentLoading,
   commentError,
 } from "../../ReducerComponent/commentSlice";
+import "../CommentForm/CommentForm.css";
 
 const CommentForm = ({ productId, userId, onCommentSubmit }) => {
   const dispatch = useDispatch();
@@ -94,7 +95,7 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
           {isLoading ? "Posting..." : "Post Comment"}
         </button>
       </form>
-      {error && <p style={{ color: "red" }}>Errore: {error}</p>}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
     </div>
   );
 };

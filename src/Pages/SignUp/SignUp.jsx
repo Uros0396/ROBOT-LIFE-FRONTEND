@@ -6,7 +6,7 @@ const SignUp = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid category-page vh-100">
+      <div className="container-fluid category-page vh-auto">
         <RegisterUser />
       </div>
       <Footer />

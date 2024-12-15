@@ -1,7 +1,7 @@
 import React from "react";
 import "../SuccesRegisterModal/SuccesRegModal.css";
 
-const SuccessModal = ({ isOpen, message, onClose }) => {
+const SuccessModal = ({ isOpen, message }) => {
   if (!isOpen) return null;
 
   return (

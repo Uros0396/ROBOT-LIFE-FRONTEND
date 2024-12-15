@@ -52,6 +52,7 @@
     max-height: 330px; 
     overflow-y: scroll; 
     padding: 20px;
+    padding-bottom: 40px;
     border: 1px solid #ccc; 
     background-color: #f8f9fa; 
     border-radius: 5px;

@@ -11,8 +11,8 @@ const images = [
 
 const MainComponent = ({ searchResult = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [searchPerformed, setSearchPerformed] = useState(false);
+
+  const [searchPerformed] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,21 +57,32 @@ const MainComponent = ({ searchResult = [] }) => {
         searchResult.length > 0 && (
           <div>
             <hr style={{ color: "orange" }} />
-            <h2 className="text-warning">Search Results</h2>
+            <h2 className="text-warning">Search Results For:</h2>
             {searchResult.map((product) => (
-              <div key={product._id} className="container-fluid">
+              <div key={product._id} className="container-fluid pb-5">
                 <div className="row">
-                  <div className="col col-md-6 col-lg-6">
-                    <h3 className="text-warning">{product.title}</h3>{" "}
+                  <div className="col-sm-12 col-md-6 col-lg-6 mt-5">
+                    <h3 style={{ color: "orange" }}>{product.title}</h3>{" "}
                     <img
-                      height={400}
-                      width={700}
                       src={product.image[0]}
-                      alt=""
+                      className="img-fluid"
+                      style={{
+                        maxHeight: "400px",
+                        maxWidth: "100%",
+                        objectFit: "contain",
+                      }}
                     />
                   </div>
-                  <div className="col col-md-6 col-lg-6">
-                    <p className="text-warning">{product.description}</p>
+                  <div className="col-sm-12 col-md-6 col-lg-6 mt-5">
+                    <p className="text-warning mt-5">{product.description}</p>
+                    <p className="text-light">
+                      To view the product details, price, and make a purchase,
+                      you need to sign up for RobotLife. After registering,
+                      navigate to the "Category" section to find the product
+                      you're interested in. Once you've found it, you'll be able
+                      to access all the detailed information and proceed with
+                      your purchase.
+                    </p>
                   </div>
                 </div>
               </div>

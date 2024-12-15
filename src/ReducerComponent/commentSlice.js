@@ -10,8 +10,6 @@ export const postComment = createAsyncThunk(
   "comments/POSTcomments",
   async (newComment, { rejectWithValue }) => {
     try {
-      console.log("Inviando commento:", newComment);
-
       const res = await fetch(
         `${import.meta.env.VITE_SERVER_BASE_URL}/comment/create`,
         {
@@ -25,15 +23,15 @@ export const postComment = createAsyncThunk(
 
       if (!res.ok) {
         const errorText = await res.text();
-        console.error("Errore dal server:", errorText);
+        console.error("Server error:", errorText);
         throw new Error(`HTTP error! status: ${res.status}, ${errorText}`);
       }
 
       const responseData = await res.json();
-      console.log("Dati ricevuti dal server:", responseData);
+
       return responseData;
     } catch (error) {
-      console.error("Errore durante la richiesta:", error);
+      console.error("Error during the request:", error);
       return rejectWithValue(error.message || "Error posting the comment");
     }
   }
@@ -60,7 +58,7 @@ const commentSlice = createSlice({
       .addCase(postComment.rejected, (state, action) => {
         state.isLoading = false;
         state.error =
-          action.payload || "Errore sconosciuto durante l'invio del commento";
+          action.payload || "Unknown error while submitting the comment";
       });
   },
 });

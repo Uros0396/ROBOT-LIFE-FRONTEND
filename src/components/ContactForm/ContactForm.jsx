@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
+import "../ContactForm/ContactForm.css";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    to: "support@example.com",
+    to: "urosm4471@gmail.com",
     subject: "",
     text: "",
-    html: "",
   });
 
-  const [status, setStatus] = useState(null);
+  const [status] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,14 +35,44 @@ const ContactForm = () => {
       );
 
       if (response.ok) {
-        setStatus("Message sent successfully!");
-        setFormData({ to: "", subject: "", text: "", html: "" });
+        Swal.fire({
+          title: "Message Sent!",
+          text: "Your message has been sent successfully.",
+          icon: "success",
+          background: "#1a1a1a",
+          color: "gold",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
+
+        setFormData({ to: "urosm4471@gmail.com", subject: "", text: "" });
       } else {
-        setStatus("Error sending the message. Please try again.");
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to send the message. Please try again.",
+          icon: "error",
+          background: "#1a1a1a",
+          color: "gold",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
       }
     } catch (error) {
-      setStatus("Error sending the message. Please try again.");
-      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
+        background: "#1a1a1a",
+        color: "gold",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "custom-confirm-button",
+        },
+      });
     }
   };
 
@@ -51,14 +82,14 @@ const ContactForm = () => {
         <h4 className="text-warning">Company Contact Information:</h4>
         <p className="text-light">
           <strong style={{ color: "orange" }}>Email:</strong>{" "}
-          <a href="mailto:RobotLife@gmail.com">RobotLife@gmail.com</a>
+          <a href="mailto:urosm4471@gmail.com">urosm4471@gmail.com</a>
         </p>
         <p className="text-light">
           <strong style={{ color: "orange" }}>Phone:</strong> +1 (123) 456-7890
         </p>
         <p className="text-light">
-          <strong style={{ color: "orange" }}>Office Address:</strong> 123
-          Business Road, Suite 456, Cityname, State, 12345
+          <strong style={{ color: "orange" }}>Office Address:</strong> 10
+          Arnezhoferstrasse, Suite 26, Wien, Osterreich, 1020
         </p>
         <p className="text-light">
           <strong style={{ color: "orange" }}>Working Hours:</strong> Monday -
@@ -79,11 +110,19 @@ const ContactForm = () => {
         as possible.
       </p>
 
-      {status && <p>{status}</p>}
+      {status && (
+        <div
+          className={`alert ${
+            status.includes("successfully") ? "alert-success" : "alert-danger"
+          } mt-3`}
+        >
+          {status}
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="d-flex justify-content-between align-items-center w-25">
-          <label htmlFor="subject">
+      <form onSubmit={handleSubmit} className="pb-4">
+        <div className="mb-3">
+          <label htmlFor="subject" className="form-label text-light">
             <strong style={{ color: "orange" }}>Robot Model</strong>
           </label>
           <input
@@ -93,24 +132,32 @@ const ContactForm = () => {
             value={formData.subject}
             onChange={handleChange}
             required
+            className="form-control w-50"
+            placeholder="Enter the robot model"
           />
         </div>
-        <div className="d-flex justify-content-between align-items-center w-25 mt-2">
-          <label htmlFor="text">
+
+        <div className="mb-3">
+          <label htmlFor="text" className="form-label text-light">
             <strong style={{ color: "orange" }}>Message (Text)</strong>
           </label>
           <textarea
             id="text"
             name="text"
-            className="w-100"
+            className="form-control w-50"
             value={formData.text}
             onChange={handleChange}
             required
+            placeholder="Write your message here..."
+            rows="4"
           ></textarea>
         </div>
 
-        <button className="btn bg-black mt-2" type="submit">
-          <span style={{ color: "orange" }}>Send</span>
+        <button
+          className="btn btn-dark mt-3 border-1 border-warning"
+          type="submit"
+        >
+          <span style={{ color: "gold" }}>Send</span>
         </button>
       </form>
     </div>

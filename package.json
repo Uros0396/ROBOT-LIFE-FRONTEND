@@ -23,7 +23,8 @@
     "react-responsive-pagination": "^2.9.1",
     "react-router-dom": "^7.0.1",
     "redux-persist": "^6.0.0",
-    "reselect": "^5.1.1"
+    "reselect": "^5.1.1",
+    "sweetalert2": "^11.15.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

@@ -29,7 +29,7 @@ const useSession = () => {
           });
         }
       } catch (error) {
-        console.error("Errore nel decoding del token:", error);
+        console.error("Error decoding token:", error);
         localStorage.removeItem("Authorization");
         setSessionData(null);
         navigate("/");

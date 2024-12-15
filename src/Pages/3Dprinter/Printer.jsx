@@ -8,16 +8,12 @@ import { useEffect } from "react";
 import {
   getAllProducts,
   allProducts,
-  isProductLoading,
-  errorProduct,
 } from "../../ReducerComponent/getProductsReducer";
 
 const Printer = () => {
   const { category } = useParams();
   const dispatch = useDispatch();
   const products = useSelector(allProducts);
-  const isLoading = useSelector(isProductLoading);
-  const error = useSelector(errorProduct);
 
   useEffect(() => {
     if (!products.length) {
@@ -33,14 +29,16 @@ const Printer = () => {
     <>
       <Navbar />
       <div className="container-fluid category-page vh-auto">
-        <div className="row mb-3">
-          <div className="col justify-content-center text-light printer-text">
+        <div className="row mb-3 d-flex justify-content-center align-items-center printer-text">
+          <div className="col-12 d-flex w-100 flex-column justify-content-center align-items-center text-center">
+            <h2 className="text-warning pt-3 pb-3">3D Printer World</h2>
             <img
-              className="img-printer"
+              className="img-fluid w-100 img-printer"
               src="https://res.cloudinary.com/dhoq8vx2k/image/upload/v1733403326/ROBOTLIFE/workshop_motionlab-berlin_3d-printing-berlin.jpg"
               alt="image-3DPrinter"
             />
-            <p className="printer-text">
+
+            <p className="mt-3 mb-4">
               3D printers have revolutionized the way we create and design
               objects, offering unprecedented versatility and precision in
               various industries. From prototypes to final products, 3D printing
@@ -64,34 +62,38 @@ const Printer = () => {
             </p>
           </div>
         </div>
-        <div className="row mb-5 pt-b d-flex justify-content-between gap-1">
-          <div className="col-6 Printer-Video">
-            <iframe
-              width="600"
-              height="400"
-              src="https://www.youtube.com/embed/Zsw35FpJSz0?si=NMqepIQIjRygBmAe"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+        <div className="row mt-5 mb-5 pt-b justify-content-center align-items-start">
+          <div className="col-12 text-center printer-text">
+            <h3 className="text-warning">
+              Take a look at how to build a robot with a 3D Printer
+            </h3>
           </div>
-          <div className="col-6 Printer-Video">
-            <iframe
-              width="600"
-              height="400"
-              src="https://www.youtube.com/embed/Ftt9e8xnKE4?si=O4a6zPpd6-E3Fy49"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+          <div className="col-12 col-lg-6 Printer-Video d-flex">
+            <div className="ratio ratio-16x9 w-100">
+              <iframe
+                src="https://www.youtube.com/embed/Zsw35FpJSz0?si=NMqepIQIjRygBmAe"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+          <div className="col-12 col-lg-6 Printer-Video d-flex">
+            <div className="ratio ratio-16x9 w-100">
+              <iframe
+                src="https://www.youtube.com/embed/Ftt9e8xnKE4?si=O4a6zPpd6-E3Fy49"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
         </div>
 
         <div className="row justify-content-center">
+          <div className="text-center mt-3 mb-2 printer-text">
+            <h3 className="text-warning">Our 3D Printer</h3>
+          </div>
           <CardComponent filteredProducts={filteredProducts} />
         </div>
       </div>

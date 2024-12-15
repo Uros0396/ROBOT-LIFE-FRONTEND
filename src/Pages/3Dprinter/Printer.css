@@ -1,41 +1,54 @@
 .category-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .row {
-    width: 100%; 
-  }
-  
-  .img-printer {
-    object-fit: contain;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-height: 400px; 
-    display: block;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.row {
+  width: 100%;
+}
+
+.img-printer {
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-height: 400px;
+  display: block;
+}
+
 
 .Printer-Video {
-    height: 400px;
-    width: 600px;
-    border: 2px solid blue;
-    background-color: lightgray;
-    margin: 0;
-    padding: 0;
- } 
+  margin: 10px 0;
+}
+
+.ratio {
+  background-color: lightgray;
+  border: 2px solid blue;
+}
+
 
 .printer-text {
-    margin-left: 250px;
-    margin-right: 250px;
-} 
-
-.printer-text {
-  background-color: rgba(0, 0, 0, 0.7) !important; 
+  margin-left: 50px;
+  margin-right: 50px;
+  text-align: center;
+  color: orange;
+  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
 .printer-text p {
-     color: orange;
+  color: orange;
+}
+
+
+@media (max-width: 576px) {
+  .Printer-Video {
+    margin: 10px 0;
+  }
+
+  .printer-text {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }

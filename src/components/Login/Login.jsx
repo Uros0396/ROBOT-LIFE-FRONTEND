@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = ({ closeModal = () => {} }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -28,12 +29,30 @@ const Login = ({ closeModal = () => {} }) => {
         localStorage.setItem("Authorization", data.token);
         closeModal();
         navigate("/");
+        Swal.fire({
+          title: data.message || "Login Successfully",
+          icon: "success",
+          background: "#1a1a1a",
+          color: "gold",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
       } else {
-        setErrorMessage(data.message || "Login failed. Please try again.");
+        Swal.fire({
+          title: data.message || "Error Login",
+          icon: "warning",
+          background: "#1a1a1a",
+          color: "gold",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage("Login failed. Please try again.");
     }
   };
 
@@ -44,7 +63,7 @@ const Login = ({ closeModal = () => {} }) => {
   };
 
   return (
-    <div>
+    <div className="mt-0 pt-0">
       <form
         className="d-flex flex-column justify-content-center align-items-center gap-2"
         onSubmit={onSubmit}
@@ -69,11 +88,11 @@ const Login = ({ closeModal = () => {} }) => {
           autoComplete="current-password"
           required
         />
-        <button className="text-warning bg-dark mt-4" type="submit">
+        <button className="text-warning bg-dark" type="submit">
           Login
         </button>
         {errorMessage && (
-          <div className="alert alert-danger mt-3">{errorMessage}</div>
+          <div className="alert alert-danger">{errorMessage}</div>
         )}
         <button
           className="text-warning bg-dark"

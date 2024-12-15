@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Login from "../Login/Login";
 
 const CardComponent = ({ filteredProducts }) => {
-  console.log("Prodotti ricevuti:", filteredProducts);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const handleMoreClick = (e) => {
@@ -70,17 +69,17 @@ const CardComponent = ({ filteredProducts }) => {
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header>
-          <Modal.Title className="text-warning pt-2">
+          <Modal.Title className="text-warning pb-0 pt-5">
             Access required
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Login />
-          <div className="mt-3 d-flex justify-content-center align-items-center">
-            <p className="text-warning mt-3 me-2">Don't have an account?</p>
+          <div className="mt-0 d-flex justify-content-center align-items-center">
+            <p className="text-warning me-2">Don't have an account?</p>
             <Button
               variant="link"
-              className="p-0 text-decoration-none"
+              className="text-decoration-none mb-3"
               onClick={() => {
                 setShowModal(false);
                 navigate("/SignUp");

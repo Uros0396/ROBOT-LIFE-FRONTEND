@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -27,8 +28,6 @@ const CategoryPage = () => {
   const filteredProducts = products.filter(
     (product) => product.category === category
   );
-  console.log("Category", category);
-  console.log("Filtered", filteredProducts);
 
   return (
     <>

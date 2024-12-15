@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Login from "../Login/Login";
 import "../Nav/Navbar.css";
-import { Search } from "lucide-react";
+import { Search, LogOut, ShoppingCart } from "lucide-react";
+import Swal from "sweetalert2";
 
 const Navbar = ({ setSearchResult }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -13,7 +14,7 @@ const Navbar = ({ setSearchResult }) => {
 
   const handleSearch = async () => {
     if (!searchTitle.trim()) {
-      alert("Please enter a valid title");
+      setSearchResult([]);
       return;
     }
 
@@ -29,12 +30,31 @@ const Navbar = ({ setSearchResult }) => {
           : [data.product];
         setSearchResult(products);
       } else {
-        alert(data.message || "Product not found");
+        Swal.fire({
+          title: data.message || "Product not found",
+          icon: "warning",
+          background: "#1a1a1a",
+          color: "gold",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
         setSearchResult([]);
       }
     } catch (error) {
-      console.error("Search error:", error);
-      alert("Error occurred while searching");
+      console.error(error);
+      Swal.fire({
+        title: "Error occurred while searching",
+
+        icon: "warning",
+        background: "#1a1a1a",
+        color: "gold",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "custom-confirm-button",
+        },
+      });
       setSearchResult([]);
     }
   };
@@ -49,7 +69,16 @@ const Navbar = ({ setSearchResult }) => {
 
   const logout = () => {
     localStorage.removeItem("Authorization");
-    alert("Logged out successfully.");
+    Swal.fire({
+      title: "Logged out successfully.",
+      icon: "success",
+      background: "#1a1a1a",
+      color: "gold",
+      confirmButtonText: "OK",
+      customClass: {
+        confirmButton: "custom-confirm-button",
+      },
+    });
     navigate("/");
   };
 
@@ -104,23 +133,28 @@ const Navbar = ({ setSearchResult }) => {
               <input
                 type="text"
                 value={searchTitle}
-                onChange={(e) => setSearchTitle(e.target.value)}
+                onChange={(e) => {
+                  setSearchTitle(e.target.value);
+                  if (e.target.value === "") {
+                    setSearchResult([]);
+                  }
+                }}
                 placeholder="Search"
                 className="form-control input-color me-2"
               />
-
-              <a href="#">
+              <a className="me-2" href="#">
                 <Search onClick={handleSearch} />
               </a>
             </div>
           )}
 
-          <a href="#" className="me-2 text-white" onClick={logout}>
-            <i className="bi bi-person-fill-down"></i>
-          </a>
           <Link to="/Cart" className="me-2 text-white">
-            <i className="bi bi-handbag-fill"></i>
+            <ShoppingCart />
           </Link>
+
+          <a href="#" className="me-2 text-white" onClick={logout}>
+            <LogOut />
+          </a>
         </div>
       </nav>
 
@@ -131,7 +165,7 @@ const Navbar = ({ setSearchResult }) => {
               <div className="modal-header">
                 <button
                   type="button"
-                  className="btn-close"
+                  className="btn-close bg-warning"
                   onClick={toggleLoginModal}
                 ></button>
               </div>
@@ -161,6 +195,18 @@ const Navbar = ({ setSearchResult }) => {
             <Link to="/Contact Us" className="text-decoration-none text-white">
               <li className="py-2">Contact Us</li>
             </Link>
+            <Link to="/Cart" className="me-2 text-white">
+              <ShoppingCart />
+            </Link>
+            <button
+              className="btn btn-outline-light me-2 border-0 bg-black"
+              onClick={toggleLoginModal}
+            >
+              <span className="text-warning">Login</span>
+            </button>
+            <a href="#" className="me-2 text-white" onClick={logout}>
+              <LogOut />
+            </a>
           </ul>
           <button
             className="btn-close text-white mt-2 ms-auto me-3"

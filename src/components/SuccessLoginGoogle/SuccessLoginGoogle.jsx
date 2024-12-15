@@ -15,7 +15,15 @@ const SuccessLoginGoogle = () => {
     }
   }, [location, navigate]);
 
-  return <div>Successfully Login</div>;
+  return (
+    <div className="container bg-dark">
+      <div className="row d-flex justify-content-center align-items-center">
+        <div className="col text-warning">
+          <h2>Successfully Login With Google</h2>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SuccessLoginGoogle;
