@@ -85,7 +85,7 @@ const Details = () => {
       _id: product._id,
       title: product.title,
       price: parseFloat(product.price.$numberDecimal.toString()).toFixed(2),
-      image: product.image[1],
+      image: product.image[0],
     };
     dispatch(addToCart(productToAdd));
     console.log(productToAdd);
