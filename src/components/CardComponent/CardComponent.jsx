@@ -29,7 +29,7 @@ const CardComponent = ({ filteredProducts }) => {
   return (
     <>
       {filteredProducts.map((product) => (
-        <div className="card col-12 col-md-6 col-lg-4 mb-4" key={product.asin}>
+        <div className="card col-12 col-md-6 col-lg-4 mb-4" key={product._id}>
           <img
             className="img-card-top"
             src={

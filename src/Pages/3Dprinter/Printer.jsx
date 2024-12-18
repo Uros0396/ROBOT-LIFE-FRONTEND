@@ -22,7 +22,7 @@ const Printer = () => {
   }, [dispatch, products.length]);
 
   const filteredProducts = category
-    ? products.filter((product) => product.category === category)
+    ? products.filter((product) => product.category === "3D Printer")
     : products;
 
   return (

@@ -25,7 +25,7 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.comment || !formData.rate) {
@@ -45,15 +45,12 @@ const CommentForm = ({ productId, userId, onCommentSubmit }) => {
       product: productId,
     };
 
-    dispatch(postComment(dataToSubmit))
-      .then((newComment) => {
-        if (newComment) {
-          onCommentSubmit(newComment);
-        }
-      })
-      .catch((error) => {
-        console.error("Error posting the comment:", error);
-      });
+    try {
+      const newComment = await dispatch(postComment(dataToSubmit)).unwrap();
+      onCommentSubmit(newComment);
+    } catch (error) {
+      console.error("Error posting the comment:", error);
+    }
 
     setFormData({
       comment: "",

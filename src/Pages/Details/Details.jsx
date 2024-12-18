@@ -19,6 +19,7 @@ const Details = () => {
   const [mainImage, setMainImage] = useState(null);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+
   const getProductDetails = async () => {
     if (!productId) {
       console.error("Product ID is not defined.");
@@ -88,10 +89,8 @@ const Details = () => {
       image: product.image[0],
     };
     dispatch(addToCart(productToAdd));
-    console.log(productToAdd);
     Swal.fire({
-      title: "Add to cart successfully.",
-
+      title: "Added to cart successfully.",
       icon: "success",
       background: "#1a1a1a",
       color: "gold",
@@ -123,7 +122,6 @@ const Details = () => {
         <div className="row">
           <div className="col col-md-6 col-lg-6 d-flex flex-column justify-content-center align-items-center">
             <h2 className="text-warning">{productDetails.title}</h2>
-
             <img
               src={
                 mainImage ||
@@ -137,7 +135,6 @@ const Details = () => {
                 marginBottom: "20px",
               }}
             />
-
             <div className="thumbnail-container d-flex justify-content-center mt-3">
               {productDetails.image?.map((image, index) => (
                 <img
@@ -164,20 +161,16 @@ const Details = () => {
               Description:{" "}
               <span className="product-text">{productDetails.description}</span>
             </p>
-
             <p className="text-warning pb-3">
               Price: <span className="product-text">€ {price}</span>
             </p>
-
             <button
               className="btn btn-warning"
               onClick={() => handleToCart(productDetails)}
             >
               <strong>Add To Cart</strong>
             </button>
-
             <hr className="text-warning" />
-
             <div className="pt-3 pb-3 comments-container">
               {comments.length > 0 ? (
                 <ul className="ps-0">
@@ -198,9 +191,7 @@ const Details = () => {
                 <p className="product-text">No comments found.</p>
               )}
             </div>
-
             <hr className="text-warning" />
-
             <div className="pt-3 d-flex flex-column justify-content-center align-items-center div-add-review">
               <h4 className="text-warning">Add Your Reviews:</h4>
               {sessionData ? (
@@ -210,7 +201,7 @@ const Details = () => {
                   onCommentSubmit={handleNewComment}
                 />
               ) : (
-                <p className="text-danger">You must be logged.</p>
+                <p className="text-danger">You must be logged in.</p>
               )}
             </div>
           </div>
