@@ -1,65 +1,79 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+/*import { useState } from "react";
+
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
 import {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
   clearCart,
   selectCartItems,
-  selectTotalAmount,
 } from "../../../ReducerComponent/cartSlice";
-import Navbar from "../../Nav/Navbar";
-import Footer from "../../Footer/Footer";
-import "../CartPage/CartPage.css";
 import { Trash2 } from "lucide-react";
-import { Plus, Minus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import useSession from "../../../hooks/useSession";
-import Swal from "sweetalert2";
-import ValidationPayment from "../../../middleware/ValidationPayment/ValidationPayment";
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const stripe = useStripe();
+  const elements = useElements();
+  const session = useSession();
+  const navigate = useNavigate();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderMessage, setOrderMessage] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const cartItems = useSelector(selectCartItems);
-  const totalAmount = useSelector(selectTotalAmount);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [shippingDetails, setShippingDetails] = useState({
+
+  const [shippingAddress, setShippingAddress] = useState({
+    fullName: "",
     street: "",
-    houseNumber: "",
     city: "",
-    CAP: "",
+    postalCode: "",
     country: "",
   });
-  const session = useSession();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setShippingDetails({ ...shippingDetails, [name]: value });
+    setShippingAddress((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckout = async () => {
-    setLoading(true);
-    setError(null);
+  const handleConfirmOrder = () => {
+    if (
+      !shippingAddress.fullName ||
+      !shippingAddress.street ||
+      !shippingAddress.city ||
+      !shippingAddress.postalCode ||
+      !shippingAddress.country
+    ) {
+      setOrderMessage("Compila tutti i campi dello shipping address.");
+      return;
+    }
+    setIsConfirmed(true);
+  };
 
-    const isValid = ValidationPayment(shippingDetails);
-    if (!isValid) {
-      setLoading(false);
+  const handleSubmitOrder = async () => {
+    if (!stripe || !elements) {
+      console.error("Stripe o Elements non inizializzati");
       return;
     }
 
-    const totalPrice = cartItems
-      .reduce((acc, item) => acc + item.price * item.quantity, 0)
-      .toFixed(2);
+    setIsSubmitting(true);
+    setOrderMessage("Elaborazione...");
 
     const orderData = {
       user: session?._id || null,
       items: cartItems.map((item) => ({
-        product: item._id,
-        quantity: item.quantity,
-        price: parseFloat(item.price.toString()),
+        products: [
+          {
+            product: item._id,
+            quantity: item.quantity,
+            price: parseFloat(item.price.toString()),
+          },
+        ],
+        subTotal: (parseFloat(item.price) * item.quantity).toFixed(2),
       })),
-      shippingDetails,
-      totalPrice,
+      shippingAddress,
     };
 
     try {
@@ -67,156 +81,684 @@ const CartPage = () => {
         `${import.meta.env.VITE_SERVER_BASE_URL}/order`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(orderData),
         }
       );
 
-      const sessionData = await response.json();
-
-      if (sessionData.error) {
-        throw new Error(sessionData.error);
+      if (!response.ok) {
+        throw new Error("Error creation order.");
       }
 
-      Swal.fire({
-        title: "Payment successfully.",
-        icon: "success",
-        background: "#1a1a1a",
-        color: "gold",
-        confirmButtonText: "OK",
-        customClass: {
-          confirmButton: "custom-confirm-button",
-        },
+      const { clientSecret } = await response.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: elements.getElement(CardElement) },
       });
-      dispatch(clearCart());
+
+      if (result.error) {
+        setOrderMessage(`Payment error: ${result.error.message}`);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setOrderMessage("Payment Successfully!");
+        dispatch(clearCart());
+        setTimeout(() => navigate("/"), 2000);
+      }
     } catch (error) {
-      setError(error.message);
-      Swal.fire({
-        title: "Something goes wrong!.",
-        icon: "warning",
-        background: "#1a1a1a",
-        color: "gold",
-        confirmButtonText: "OK",
-        customClass: {
-          confirmButton: "custom-confirm-button",
-        },
-      });
+      console.error("Error:", error);
+      setOrderMessage(`Error: ${error.message}`);
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
+
+  const cartTotal = cartItems
+    .reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0)
+    .toFixed(2);
+
+  return (
+    <>
+      <div className="orderFormBody my-3">
+        <h1>Carrello</h1>
+
+        {cartItems.length > 0 ? (
+          <>
+            <h2>Articoli nel Carrello</h2>
+            {cartItems.map((item) => (
+              <div key={item._id} className="cartItem">
+                <div className="cartItemDetails">
+                  <h4>{item.name}</h4>
+                  <p>Prezzo unitario: €{parseFloat(item.price).toFixed(2)}</p>
+                  <div className="quantityControls">
+                    <button
+                      onClick={() => dispatch(decrementQuantity(item._id))}
+                      disabled={item.quantity <= 1}
+                      className="decrementButton"
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => dispatch(incrementQuantity(item._id))}
+                      className="incrementButton"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <p>
+                    Prezzo totale: €
+                    {(parseFloat(item.price) * item.quantity).toFixed(2)}
+                  </p>
+                  <button
+                    onClick={() => dispatch(removeFromCart(item._id))}
+                    className="removeButton"
+                    aria-label="Remove Element"
+                  >
+                    <Trash2 size="24" color="#ff4d4f" />
+                  </button>
+                </div>
+                {item.img && (
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="cartItemImage"
+                  />
+                )}
+              </div>
+            ))}
+
+            {!isConfirmed ? (
+              <>
+                <div className="my-2">
+                  <h3>Your shipping address</h3>
+                  <form className="shippingForm">
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Nome completo"
+                      value={shippingAddress.fullName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="street"
+                      placeholder="Via"
+                      value={shippingAddress.street}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={shippingAddress.city}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="postalCode"
+                      placeholder="CAP"
+                      value={shippingAddress.postalCode}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="country"
+                      placeholder="Country"
+                      value={shippingAddress.country}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </form>
+                </div>
+                <button onClick={handleConfirmOrder} className="button">
+                  Conferma Ordine (€{cartTotal})
+                </button>
+              </>
+            ) : (
+              <>
+                <h3>Pagamento</h3>
+                <CardElement className="cardElement" />
+                <button
+                  onClick={handleSubmitOrder}
+                  disabled={isSubmitting}
+                  className="button"
+                >
+                  {isSubmitting ? "Elaboration..." : "Make Payment"}
+                </button>
+              </>
+            )}
+          </>
+        ) : (
+          <p>Cart is empty</p>
+        )}
+
+        {orderMessage && <p className="statusMessage">{orderMessage}</p>}
+      </div>
+    </>
+  );
+};
+
+export default CartPage;
+
+import { useState } from "react";
+
+import { CardElement useStripe, useElements } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+  clearCart,
+  selectCartItems,
+} from "../../../ReducerComponent/cartSlice";
+import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import useSession from "../../../hooks/useSession";
+
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+  clearCart,
+  selectCartItems,
+} from "../../../ReducerComponent/cartSlice";
+import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import useSession from "../../../hooks/useSession";
+import Navbar from "../../Nav/Navbar";
+import Footer from "../../Footer/Footer";
+
+const CartPage = () => {
+  const dispatch = useDispatch();
+  const stripe = useStripe();
+  const elements = useElements();
+  const session = useSession();
+  const navigate = useNavigate();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderMessage, setOrderMessage] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const cartItems = useSelector(selectCartItems);
+
+  const [shippingAddress, setShippingAddress] = useState({
+    fullName: "",
+    street: "",
+    city: "",
+    postalCode: "",
+    country: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setShippingAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleConfirmOrder = () => {
+    if (
+      !shippingAddress.fullName ||
+      !shippingAddress.street ||
+      !shippingAddress.city ||
+      !shippingAddress.postalCode ||
+      !shippingAddress.country
+    ) {
+      setOrderMessage("Compila tutti i campi dello shipping address.");
+      return;
+    }
+    setIsConfirmed(true);
+  };
+
+  const handleSubmitOrder = async () => {
+    if (!stripe || !elements) {
+      console.error("Stripe o Elements non inizializzati");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setOrderMessage("Elaborazione...");
+
+    const orderData = {
+      user: session?._id || null,
+      items: cartItems.map((item) => ({
+        products: [
+          {
+            product: item._id,
+            quantity: item.quantity,
+            price: parseFloat(item.price.toString()),
+          },
+        ],
+        subTotal: (parseFloat(item.price) * item.quantity).toFixed(2),
+      })),
+      shippingAddress,
+    };
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/order`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setOrderMessage(`Error: ${errorData.message}`);
+        return;
+      }
+
+      const { clientSecret } = await response.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: elements.getElement(CardElement) },
+      });
+
+      if (result.error) {
+        setOrderMessage(`Payment error: ${result.error.message}`);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setOrderMessage("Payment Successfully!");
+        dispatch(clearCart());
+        setTimeout(() => navigate("/"), 2000);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setOrderMessage(`Error: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const cartTotal = cartItems
+    .reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0)
+    .toFixed(2);
 
   return (
     <>
       <Navbar />
       <div className="container-fluid mt-5 bg-dark container-cartPage">
-        <h2 style={{ color: "orange" }} className="mt-5 pt-5">
-          Your Cart
-        </h2>
-        {cartItems.length === 0 ? (
-          <p className="mb-0 pb-0" style={{ color: "orange" }}>
-            Your cart is empty!
-          </p>
-        ) : (
+        <h1 style={{ color: "orange" }} className="mt-5 pt-5">
+          Cart
+        </h1>
+
+        {cartItems.length > 0 ? (
           <>
-            <div className="row">
-              {cartItems.map((item) => (
-                <div
-                  key={item._id}
-                  className="col col-md-12 col-lg-12 d-flex flex-column mt-5 mb-3"
-                >
-                  <div className="d-flex align-items-center justify-content-between p-3">
-                    <div className="d-flex align-items-center">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        style={{
-                          width: "100px",
-                          height: "150px",
-                          marginRight: "20px",
-                        }}
-                      />
-                      <div>
-                        <h5 className="text-warning">{item.title}</h5>
-                        <p style={{ color: "orange" }}>
-                          <span className="text-warning">Price: $</span>
-                          {item.price}
-                        </p>
-                        <p style={{ color: "orange" }}>
-                          <span className="text-warning">Quantity:</span>
-                          {item.quantity}
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <button
-                        className="btn mx-1"
-                        onClick={() => dispatch(decrementQuantity(item._id))}
-                      >
-                        <Minus style={{ color: "gray" }} />
-                      </button>
-                      <button
-                        className="btn mx-1"
-                        onClick={() => dispatch(incrementQuantity(item._id))}
-                      >
-                        <Plus style={{ color: "gray" }} />
-                      </button>
-                      <button
-                        className="btn mx-1"
-                        onClick={() => dispatch(removeFromCart(item._id))}
-                      >
-                        <Trash2 />
-                      </button>
-                    </div>
+            <h2 className="text-warning">Items in Cart</h2>
+            {cartItems.map((item) => (
+              <div key={item._id} className="cartItem">
+                <div className="mb-3">
+                  <h4 className="mb-3 mt-5 text-warning">{item.title}</h4>
+                  <img src={item.image} width={200} alt="item-image" />
+
+                  <div className="mt-4">
+                    <button
+                      onClick={() => dispatch(decrementQuantity(item._id))}
+                      disabled={item.quantity <= 1}
+                      className="decrement"
+                    >
+                      <span className="text-white">-</span>
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => dispatch(incrementQuantity(item._id))}
+                      className="increment"
+                    >
+                      <span className="text-white">+</span>
+                    </button>
                   </div>
+                  <p className="text-warning mt-4">
+                    Total Price: €
+                    {(parseFloat(item.price) * item.quantity).toFixed(2)}
+                  </p>
+                  <button
+                    onClick={() => dispatch(removeFromCart(item._id))}
+                    className="removeButton"
+                    aria-label="Remove Element"
+                  >
+                    <Trash2 size="24" color="#ff4d4f" />
+                  </button>
                 </div>
-              ))}
-            </div>
-            <h4 style={{ color: "orange" }} className="mt-4">
-              <span className="text-warning">Total: $</span>
-              {totalAmount.toFixed(2)}
-            </h4>
-            <div className="mt-3">
-              <button
-                className="btn btn-warning"
-                onClick={() => dispatch(clearCart())}
-              >
-                <strong>Empty Cart</strong>
-              </button>
-              <button
-                className="btn btn-success ms-3"
-                onClick={handleCheckout}
-                disabled={cartItems.length === 0 || loading}
-              >
-                <strong className="text-warning">
-                  {loading ? "Processing..." : "Proceed with checkout"}
-                </strong>
-              </button>
-            </div>
-            <div className="mt-4 mb-0 pb-0">
-              <h4 style={{ color: "orange" }}>Shipping Address</h4>
-              <form className="col-sm-12 col-md-6 col-lg-6 ">
-                {Object.keys(shippingDetails).map((field) => (
-                  <div className="pb-3" key={field}>
-                    <label htmlFor={field} style={{ color: "orange" }}>
-                      {field.charAt(0).toUpperCase() + field.slice(1)}:
-                    </label>
+              </div>
+            ))}
+
+            {!isConfirmed ? (
+              <>
+                <div className="my-2">
+                  <h3 className="text-warning mb-3">Your shipping address</h3>
+                  <form className="d-flex flex-column justify-content-start w-50 gap-3">
                     <input
                       type="text"
-                      id={field}
-                      name={field}
-                      className="form-control"
-                      value={shippingDetails[field]}
+                      name="fullName"
+                      placeholder="Nome completo"
+                      value={shippingAddress.fullName}
                       onChange={handleInputChange}
                       required
                     />
-                  </div>
-                ))}
-              </form>
-            </div>
+                    <input
+                      type="text"
+                      name="street"
+                      placeholder="Via"
+                      value={shippingAddress.street}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={shippingAddress.city}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="postalCode"
+                      placeholder="CAP"
+                      value={shippingAddress.postalCode}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="country"
+                      placeholder="Country"
+                      value={shippingAddress.country}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </form>
+                </div>
+                <button onClick={handleConfirmOrder} className="button">
+                  Conferma Ordine (€{cartTotal})
+                </button>
+              </>
+            ) : (
+              <>
+                <h3>Pagamento</h3>
+                <CardElement className="cardElement" />
+                <button
+                  onClick={handleSubmitOrder}
+                  disabled={isSubmitting}
+                  className="button"
+                >
+                  {isSubmitting ? "Elaboration..." : "Make Payment"}
+                </button>
+              </>
+            )}
           </>
+        ) : (
+          <p>Cart is empty</p>
+        )}
+
+        {orderMessage && <p className="statusMessage">{orderMessage}</p>}
+      </div>
+      <Footer />
+    </>
+  );
+};
+
+export default CartPage;*/
+
+import { useState } from "react";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"; // Keep this line for the imports
+import { useDispatch, useSelector } from "react-redux";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+  clearCart,
+  selectCartItems,
+} from "../../../ReducerComponent/cartSlice";
+import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import useSession from "../../../hooks/useSession";
+import Navbar from "../../Nav/Navbar";
+import Footer from "../../Footer/Footer";
+import "../CartPage/CartPage.css";
+import Swal from "sweetalert2";
+
+const CartPage = () => {
+  const dispatch = useDispatch();
+  const stripe = useStripe();
+  const elements = useElements();
+  const session = useSession();
+  const navigate = useNavigate();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderMessage, setOrderMessage] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const cartItems = useSelector(selectCartItems);
+
+  const [shippingAddress, setShippingAddress] = useState({
+    fullName: "",
+    street: "",
+    city: "",
+    postalCode: "",
+    country: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setShippingAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleConfirmOrder = () => {
+    if (
+      !shippingAddress.fullName ||
+      !shippingAddress.street ||
+      !shippingAddress.city ||
+      !shippingAddress.postalCode ||
+      !shippingAddress.country
+    ) {
+      setOrderMessage("Compila tutti i campi dello shipping address.");
+      return;
+    }
+    setIsConfirmed(true);
+  };
+
+  const handleSubmitOrder = async () => {
+    if (!stripe || !elements) {
+      console.error("Stripe o Elements non inizializzati");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setOrderMessage("Elaborazione...");
+
+    const orderData = {
+      user: session?._id || null,
+      items: cartItems.map((item) => ({
+        products: [
+          {
+            product: item._id,
+            quantity: item.quantity,
+            price: parseFloat(item.price.toString()),
+          },
+        ],
+        subTotal: (parseFloat(item.price) * item.quantity).toFixed(2),
+      })),
+      shippingAddress,
+    };
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/order`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setOrderMessage(`Error: ${errorData.message}`);
+        return;
+      }
+
+      const { clientSecret } = await response.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: elements.getElement(CardElement) },
+      });
+
+      if (result.error) {
+        setOrderMessage(`Payment error: ${result.error.message}`);
+      } else if (result.paymentIntent.status === "succeeded") {
+        Swal.fire({
+          title: "Payment successfully.",
+          icon: "success",
+          background: "#1a1a1a",
+          color: "gold",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "custom-confirm-button",
+          },
+        });
+        dispatch(clearCart());
+        setTimeout(() => navigate("/"), 2000);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setOrderMessage(`Error: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const cartTotal = cartItems
+    .reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0)
+    .toFixed(2);
+
+  return (
+    <>
+      <Navbar />
+      <div className="container-fluid mt-5 bg-dark container-cartPage">
+        <h1 style={{ color: "orange" }} className="mt-5 pt-5">
+          Cart
+        </h1>
+
+        {cartItems.length > 0 ? (
+          <>
+            <h2 className="text-warning mt-5">Items in Cart:</h2>
+            {cartItems.map((item) => (
+              <div key={item._id} className="cartItem">
+                <div className="mb-3">
+                  <h4 className="mb-3 mt-3 text-warning">{item.title}</h4>
+                  <img src={item.image} width={200} alt="item-image" />
+
+                  <div className="mt-4">
+                    <button
+                      onClick={() => dispatch(decrementQuantity(item._id))}
+                      disabled={item.quantity <= 1}
+                      className="decrement"
+                    >
+                      <span className="text-white">-</span>
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => dispatch(incrementQuantity(item._id))}
+                      className="increment"
+                    >
+                      <span className="text-white">+</span>
+                    </button>
+
+                    <button
+                      onClick={() => dispatch(removeFromCart(item._id))}
+                      className="remove-button"
+                      aria-label="Remove Element"
+                    >
+                      <Trash2 size="24" color="yellow" className="bg-black" />
+                    </button>
+                  </div>
+                  <p className="text-warning mt-4">
+                    Total Price: €
+                    {(parseFloat(item.price) * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            ))}
+
+            {!isConfirmed ? (
+              <>
+                <div className="my-2">
+                  <h3 className="text-warning mb-3">Your shipping address</h3>
+                  <form className="d-flex flex-column justify-content-start w-50 gap-3">
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Full Name"
+                      value={shippingAddress.fullName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="street"
+                      placeholder="Street"
+                      value={shippingAddress.street}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="city"
+                      placeholder="City"
+                      value={shippingAddress.city}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="postalCode"
+                      placeholder="CAP"
+                      value={shippingAddress.postalCode}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="country"
+                      placeholder="Country"
+                      value={shippingAddress.country}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </form>
+                </div>
+                <button
+                  onClick={handleConfirmOrder}
+                  className="btn text-warning bg-black mt-2 mb-5"
+                >
+                  Confirm Order (€{cartTotal})
+                </button>
+              </>
+            ) : (
+              <>
+                <div>
+                  <h5 className="text-warning">Payment</h5>
+                  <CardElement className="card-element mt-3" />
+                  <button
+                    onClick={handleSubmitOrder}
+                    disabled={isSubmitting}
+                    className="btn bg-black text-warning mt-3"
+                  >
+                    {isSubmitting ? "Elaboration..." : "Make Payment"}
+                  </button>
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <p className="text-warning">Cart is empty</p>
+        )}
+
+        {orderMessage && (
+          <p className="statusMessage text-warning">{orderMessage}</p>
         )}
       </div>
       <Footer />

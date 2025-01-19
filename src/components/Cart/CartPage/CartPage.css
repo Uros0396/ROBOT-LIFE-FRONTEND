@@ -3,8 +3,32 @@
     min-height: 100vh;
 }
 
-.container-cartPage .mb-3 {
-    background-color: rgba(0, 0, 0, 0.7) !important;
-    border: 1px solid orange;
+.decrement {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    border-radius: 8px;
 }
 
+.increment {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    border-radius: 8px;
+    border: none;
+}
+
+.remove-button {
+    background: black;
+    width: 40px;
+    height: 42px;
+    border-radius: 8px;
+    margin-left: 50px;
+    border: none;
+}
+
+.card-element {
+  border: 1px solid, orange;
+  color: yellow;
+  background-color: rgb(192, 190, 190);
+}
