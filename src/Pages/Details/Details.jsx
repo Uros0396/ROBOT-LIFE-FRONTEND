@@ -121,19 +121,16 @@ const Details = () => {
       <div className="container-fluid bg-details bg-dark">
         <div className="row">
           <div className="col col-md-6 col-lg-6 d-flex flex-column justify-content-center align-items-center">
-            <h2 className="text-warning">{productDetails.title}</h2>
+            <h2 className="text-warning text-img-details">
+              {productDetails.title}
+            </h2>
             <img
               src={
                 mainImage ||
                 "https://via.placeholder.com/500?text=No+Image+Available"
               }
               alt="Main Product"
-              style={{
-                width: "600px",
-                height: "400px",
-                objectFit: "cover",
-                marginBottom: "20px",
-              }}
+              className="img-product-details"
             />
             <div className="thumbnail-container d-flex justify-content-center mt-3">
               {productDetails.image?.map((image, index) => (
@@ -143,11 +140,6 @@ const Details = () => {
                   alt={`Thumbnail ${index}`}
                   className="thumbnail-image me-2"
                   style={{
-                    width: "100px",
-                    height: "70px",
-                    objectFit: "cover",
-                    marginBottom: "80px",
-                    cursor: "pointer",
                     border: mainImage === image ? "2px solid orange" : "none",
                   }}
                   onClick={() => handleThumbnailClick(image)}

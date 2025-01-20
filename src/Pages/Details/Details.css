@@ -15,6 +15,21 @@
 }
 
 
+.img-product-details {
+  width: 400px;
+  height: 250px;
+  object-Fit: cover;
+  margin-Bottom: 20px
+}
+
+.thumbnail-image {
+  width: 100px;
+  height: auto;
+ 
+  margin-bottom: 80px;
+ 
+}
+
   
   .thumbnails img {
     transition: transform 0.2s;
@@ -56,4 +71,23 @@
     
   }
 
-  
+  @media (max-width: 576px) {
+    .img-product-details {
+      width: 250px;
+      height: 100px;
+      
+      
+    }
+
+    .text-img-details {
+      
+      padding-bottom: 1rem;
+      
+    }
+
+    .thumbnail-image {
+      width: 60px;
+      height: auto;
+      
+    }
+  }
