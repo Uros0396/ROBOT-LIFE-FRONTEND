@@ -88,6 +88,11 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
+      <div>
+        <small className="text-white">
+          © 2025 Capstone Project. For educational purposes only
+        </small>
+      </div>
     </footer>
   );
 };
