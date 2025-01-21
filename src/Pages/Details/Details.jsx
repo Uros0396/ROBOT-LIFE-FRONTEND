@@ -119,8 +119,8 @@ const Details = () => {
     <>
       <Navbar />
       <div className="container-fluid bg-details bg-dark">
-        <div className="row">
-          <div className="col col-md-6 col-lg-6 d-flex flex-column justify-content-center align-items-center">
+        <div className="row ">
+          <div className="col-sm-12 col-md-6 col-lg-6 d-flex flex-column justify-content-top align-items-center div-image-side">
             <h2 className="text-warning text-img-details">
               {productDetails.title}
             </h2>
@@ -148,7 +148,7 @@ const Details = () => {
             </div>
           </div>
 
-          <div className="col col-md-6 col-lg-6 div-descript">
+          <div className="col col-md-6 col-lg-6 div-descript mb-5">
             <p className="text-warning">
               Description:{" "}
               <span className="product-text">{productDetails.description}</span>

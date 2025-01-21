@@ -182,7 +182,7 @@ const CartPage = () => {
               <>
                 <div className="my-2">
                   <h3 className="text-warning mb-3">Your shipping address</h3>
-                  <form className="d-flex flex-column justify-content-start w-50 gap-3">
+                  <form className="d-flex flex-column justify-content-start gap-3 form-mobile">
                     <input
                       type="text"
                       name="fullName"

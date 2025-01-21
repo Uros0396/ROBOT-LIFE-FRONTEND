@@ -15,3 +15,15 @@ a {
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
+
+@media (max-width: 576px) {
+    .footerTop p {
+        margin-left: 2rem;
+    }
+    .footerTop h5 {
+        margin-left: 2rem;
+    }
+    .footerTop svg {
+        margin-left: 2rem;
+    }
+}

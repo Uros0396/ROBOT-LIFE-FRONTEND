@@ -32,3 +32,13 @@
   color: yellow;
   background-color: rgb(192, 190, 190);
 }
+
+.form-mobile {
+    width: 50%;
+}
+
+@media (max-width: 576px) {
+    .form-mobile {
+        width: 100%;
+    }
+}

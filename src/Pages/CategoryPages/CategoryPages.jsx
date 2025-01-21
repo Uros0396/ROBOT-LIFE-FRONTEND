@@ -32,7 +32,7 @@ const CategoryPage = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid category-page">
+      <div className="container-fluid  category-page">
         <h2 className="text-center pb-5 category-title">{category}</h2>
 
         {isLoading && <p className="text-center">Loading...</p>}

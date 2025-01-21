@@ -82,14 +82,14 @@ const ContactForm = () => {
         <h4 className="text-warning">Company Contact Information:</h4>
         <p className="text-light">
           <strong style={{ color: "orange" }}>Email:</strong>{" "}
-          <a href="mailto:urosm4471@gmail.com">urosm4471@gmail.com</a>
+          <a href="mailto:urosm4471@gmail.com">robotlife@gmail.com</a>
         </p>
         <p className="text-light">
           <strong style={{ color: "orange" }}>Phone:</strong> +1 (123) 456-7890
         </p>
         <p className="text-light">
-          <strong style={{ color: "orange" }}>Office Address:</strong> 10
-          Arnezhoferstrasse, Suite 26, Wien, Osterreich, 1020
+          <strong style={{ color: "orange" }}>Office Address:</strong> 46
+          Koppstrasse, Suite 106, Wien, Osterreich, 1080
         </p>
         <p className="text-light">
           <strong style={{ color: "orange" }}>Working Hours:</strong> Monday -

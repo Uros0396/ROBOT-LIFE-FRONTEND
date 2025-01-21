@@ -4,7 +4,7 @@ const Description = () => {
   return (
     <div className="d-flex flex-column justify-content-center align-items-center div-description">
       <div className="text-center">
-        <h1 className="category-title mt-5 pt-5 mb-3 pb-3">RobotLife</h1>
+        <h1 className="category-title">RobotLife</h1>
       </div>
       <p className="text-warning text-center">
         At RobotLife, we believe the future is now! Our online store is your

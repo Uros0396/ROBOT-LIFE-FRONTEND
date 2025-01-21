@@ -62,3 +62,10 @@
 .term-condition p {
     color: orange;
 }
+
+@media (max-width: 576px) {
+    .term-condition {
+        text-align: left;
+        margin-left: 0;
+    }
+}

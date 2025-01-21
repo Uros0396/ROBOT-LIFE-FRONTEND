@@ -40,3 +40,45 @@ main {
 }
 
 
+
+@media (max-width: 576px) {
+  .carousel {
+    
+    height: 200px;
+    margin-top: 7rem;
+  }
+
+  .carousel-slide img {
+    height: 200px;
+    
+    width: auto;
+    
+     
+  }
+
+  .carousel-slides {
+    transition: transform 0.3s ease-in-out; 
+    
+  }
+}
+
+@media (orientation: landscape) and (max-width: 950px) {
+  .carousel {
+    
+    height: 300px;
+    margin-top: 6rem;
+  }
+
+  .carousel-slide img {
+    height: 300px;
+    
+    width: 100%;
+    
+     
+  }
+
+  .carousel-slides {
+    transition: transform 0.3s ease-in-out; 
+    
+  }
+}

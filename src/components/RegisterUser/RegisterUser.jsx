@@ -210,7 +210,7 @@ const RegisterUser = () => {
           <p>
             Contact us at{" "}
             <a className="text-unstyled" href="">
-              urosm4471@gmail.com
+              robotlife@gmail.com
             </a>{" "}
             for any inquiries.
           </p>
