@@ -12,6 +12,7 @@ import CardComponent from "../../components/CardComponent/CardComponent";
 import Navbar from "../../components/Nav/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "../CategoryPages/CategoryPages.css";
+import { Spinner } from "react-bootstrap";
 
 const CategoryPage = () => {
   const { category } = useParams();
@@ -32,10 +33,15 @@ const CategoryPage = () => {
   return (
     <>
       <Navbar />
+      {isLoading && (
+        <div className="vh-100 d-flex justify-content-center align-items-center bg-dark">
+          <Spinner animation="border" role="role" className="text-warning">
+            <span className="visually-hidden"></span>
+          </Spinner>
+        </div>
+      )}
       <div className="container-fluid  category-page">
         <h2 className="text-center pb-5 category-title">{category}</h2>
-
-        {isLoading && <p className="text-center">Loading...</p>}
 
         {error && <p className="text-center text-danger">{error}</p>}
 

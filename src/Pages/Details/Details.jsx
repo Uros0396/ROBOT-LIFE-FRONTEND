@@ -9,6 +9,7 @@ import useSession from "../../hooks/useSession";
 import { addToCart } from "../../ReducerComponent/cartSlice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import { Spinner } from "react-bootstrap";
 
 const Details = () => {
   const { productId } = useParams();
@@ -102,15 +103,29 @@ const Details = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="vh-100 d-flex justify-content-center align-items-center bg-dark">
+        <Spinner animation="border" role="role" className="text-warning">
+          <span className="visually-hidden"></span>
+        </Spinner>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="text-danger">
+        <strong>Error: {error}</strong>
+      </div>
+    );
   }
 
   if (!productDetails) {
-    return <div>No product details available.</div>;
+    return (
+      <div className="text-danger">
+        <strong></strong>
+      </div>
+    );
   }
 
   const price = productDetails.price?.$numberDecimal || productDetails.price;
@@ -119,7 +134,7 @@ const Details = () => {
     <>
       <Navbar />
       <div className="container-fluid bg-details bg-dark">
-        <div className="row ">
+        <div className="row container-div-image-side">
           <div className="col-sm-12 col-md-6 col-lg-6 d-flex flex-column justify-content-top align-items-center div-image-side">
             <h2 className="text-warning text-img-details">
               {productDetails.title}

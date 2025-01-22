@@ -6,6 +6,7 @@ import {
   isProductLoading,
   errorProduct,
 } from "../../ReducerComponent/getProductsReducer";
+import { Spinner } from "react-bootstrap";
 
 const SingleRandomCard = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,14 @@ const SingleRandomCard = () => {
       : null;
   }, [products]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <div className="vh-100 d-flex justify-content-center align-items-center bg-black">
+        <Spinner animation="border" role="role" className="text-white">
+          <span className="visually-hidden"></span>
+        </Spinner>
+      </div>
+    );
   if (error) return <p>{error}</p>;
 
   return randomProduct ? (

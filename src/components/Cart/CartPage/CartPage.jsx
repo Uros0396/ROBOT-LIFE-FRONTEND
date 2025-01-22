@@ -49,7 +49,7 @@ const CartPage = () => {
       !shippingAddress.postalCode ||
       !shippingAddress.country
     ) {
-      setOrderMessage("Compila tutti i campi dello shipping address.");
+      setOrderMessage("Fill in all the fields of the shipping address.");
       return;
     }
     setIsConfirmed(true);
@@ -57,12 +57,12 @@ const CartPage = () => {
 
   const handleSubmitOrder = async () => {
     if (!stripe || !elements) {
-      console.error("Stripe o Elements non inizializzati");
+      console.error("Stripe or Elements not initialized");
       return;
     }
 
     setIsSubmitting(true);
-    setOrderMessage("Elaborazione...");
+    setOrderMessage("Processing...");
 
     const orderData = {
       user: session?._id || null,
@@ -242,7 +242,7 @@ const CartPage = () => {
                     disabled={isSubmitting}
                     className="btn bg-black text-warning mt-3"
                   >
-                    {isSubmitting ? "Elaboration..." : "Make Payment"}
+                    {isSubmitting ? "Processing..." : "Make Payment"}
                   </button>
                 </div>
               </>

@@ -11,6 +11,7 @@ import {
   errorProduct,
 } from "../../ReducerComponent/getProductsReducer";
 import { useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -33,13 +34,23 @@ const Categories = () => {
   return (
     <>
       <Navbar />
+      {isLoading && (
+        <div className="vh-100 d-flex justify-content-center align-items-center bg-dark">
+          <Spinner animation="border" role="role" className="text-warning">
+            <span className="visually-hidden"></span>
+          </Spinner>
+        </div>
+      )}
       <Container
         fluid
         className="d-flex justify-content-center align-items-center min-vh-100 mt-5"
       >
         <Row className="g-5 pt-5 text-center">
-          {isLoading && <p>Loading...</p>}
-          {error && <p className="text-danger">Error: {error}</p>}
+          {error && (
+            <p className="text-danger">
+              <strong>Error: {error}</strong>
+            </p>
+          )}
           {!isLoading && !error && (
             <>
               {categories.map((category) => (

@@ -16,3 +16,15 @@
     background-color: rgba(0, 0, 0, 0.7) !important; 
 }
 
+@media (max-width: 576px) {
+    .div-1 {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 990px) {
+    .div-1 {
+        margin: 1rem auto 2rem auto; 
+        display: block;
+    }
+}
