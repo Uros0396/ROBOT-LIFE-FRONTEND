@@ -113,8 +113,11 @@
 @media (orientation: landscape) and (max-width: 990px) {
   .div-descript {
     margin-top: 11rem;
+    margin-left: 1rem;
   }
   .div-image-side {
     margin-top: 9rem;
   }
+  
+ 
 }    
