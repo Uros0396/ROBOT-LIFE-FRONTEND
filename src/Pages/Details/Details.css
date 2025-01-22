@@ -113,11 +113,18 @@
 @media (orientation: landscape) and (max-width: 990px) {
   .div-descript {
     margin-top: 11rem;
-    margin-left: 1rem;
+    
   }
   .div-image-side {
     margin-top: 9rem;
   }
-  
- 
+  .img-product-details {
+    width: 340px;
+    height: 300px;
+    margin-left: 10px;
+  }
+  .thumbnail-image {
+    width: 60px;
+    height: auto;
+  }
 }    
