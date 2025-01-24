@@ -90,7 +90,7 @@ const Footer = () => {
       </Container>
       <div>
         <small className="text-white">
-          © 2025 Capstone Project. For educational purposes only
+          © 2024 Capstone Project. For educational purposes only
         </small>
       </div>
     </footer>

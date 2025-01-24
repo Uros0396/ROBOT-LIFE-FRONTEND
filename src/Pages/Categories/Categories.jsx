@@ -35,7 +35,7 @@ const Categories = () => {
     <>
       <Navbar />
       {isLoading && (
-        <div className="vh-100 d-flex justify-content-center align-items-center bg-dark">
+        <div className="vh-auto d-flex justify-content-center align-items-center bg-dark">
           <Spinner animation="border" role="role" className="text-warning">
             <span className="visually-hidden"></span>
           </Spinner>
