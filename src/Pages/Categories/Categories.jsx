@@ -34,18 +34,22 @@ const Categories = () => {
   return (
     <>
       <Navbar />
-      {isLoading && (
-        <div className="vh-auto d-flex justify-content-center align-items-center bg-dark">
-          <Spinner animation="border" role="role" className="text-warning">
-            <span className="visually-hidden"></span>
-          </Spinner>
-        </div>
-      )}
+
       <Container
         fluid
         className="d-flex justify-content-center align-items-center min-vh-100 mt-5"
       >
         <Row className="g-5 pt-5 text-center">
+          {isLoading && (
+            <div
+              className="d-flex justify-content-center align-items-center bg-dark min-vh-100-custom"
+              style={{ minHeight: "100vh" }}
+            >
+              <Spinner animation="border" role="role" className="text-warning">
+                <span className="visually-hidden"></span>
+              </Spinner>
+            </div>
+          )}
           {error && (
             <p className="text-danger">
               <strong>Error: {error}</strong>

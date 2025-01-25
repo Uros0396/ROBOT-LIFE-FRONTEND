@@ -8,6 +8,14 @@
      
 }
 
+.min-vh-100-custom {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    min-width: 100%;
+  }
+  
+
 .div-1 {
     border: 2px solid, black;
     text-align: center;
