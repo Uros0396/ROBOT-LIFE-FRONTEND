@@ -82,10 +82,7 @@ const RegisterUser = () => {
         <div className="col col-md-3 col-lg-3 d-flex justify-content-between align-items-center">
           <div className="signup-form">
             <h2>SIGN UP</h2>
-            {error && <p className="error-message">{error}</p>}
-            {success && (
-              <p className="success-message">User created successfully!</p>
-            )}
+
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">
